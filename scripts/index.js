@@ -49,6 +49,12 @@ function createSongElement(
     durationElement.innerText = sTOmmss(duration) 
     element.appendChild(durationElement)
 
+    const imgEl = document.createElement("img")
+    imgEl.classList.add("art")
+    imgEl.setAttribute("src", coverArt)
+
+    element.append(imgEl)
+
     for (let classname of classes) {
         element.classList.add(classname)
     }
