@@ -11,13 +11,70 @@ function playSong(songId) {
 /**
  * Creates a song DOM element based on a song object.
  */
-function createSongElement({ id, title, album, artist, duration, coverArt }) {
-    const children = []
-    const classes = []
-    const attrs = { onclick: `playSong(${id})` }
-    return createElement("div", children, classes, attrs)
+// function createSongElement({ id, title, album, artist, duration, coverArt }) {
+//     const children = []
+//     const classes = []
+//     const attrs = { onclick: `playSong(${id})` }
+//     return createElement("div", children, classes, attrs)
+// }
+
+
+function createSongElement(
+    tagName,
+    id,
+    title,
+    album,
+    artist,
+    duration,
+    coverArt,
+    classes = [],
+    attributes = { onclick: `playSong(${id})` }
+) {
+    // if (type==="song")
+    let element = document.createElement("div")
+
+    let titleElement = document.createElement("p")
+    titleElement.innerText = title
+    element.appendChild(titleElement)
+
+    let albumElement = document.createElement("p")
+    albumElement.innerText = album
+    element.appendChild(albumElement)
+
+    let artistElement = document.createElement("p")
+    artistElement.innerText = artist
+    element.appendChild(artistElement)
+
+    let durationElement = document.createElement("p")
+    durationElement.innerText = sTOmmss(duration) 
+    element.appendChild(durationElement)
+
+    for (let classname of classes) {
+        element.classList.add(classname)
+    }
+    for (let atattribute in attributes) {
+        element.setAttribute(atattribute, attributes[atattribute])
+    }
+
+    return element
+}
+let songElement=document.getElementById("songs");
+for (let song of player.songs){
+    songElement.appendChild(createSongElement("p",song.id,song.title,song.album,song.artist,song.duration,song.coverArt,["song"],{ onclick: `playSong(${song.id})` }))
 }
 
+
+
+function sTOmmss(s) {//gets: SECONDS , returns: "MINUTES:SECONDS".
+    const mm = Math.floor(s / 60)
+    const ss = s % 60
+    let mmss = ''
+    if (mm > 9 && ss > 9) mmss = `${mm}:${ss}`
+    if (mm > 9 && ss <= 9) mmss = `${mm}:0${ss}`
+    if (mm <= 9 && ss > 9) mmss = `0${mm}:${ss}`
+    if (mm <= 9 && ss <= 9) mmss = `0${mm}:0${ss}`
+    return mmss
+  }
 /**
  * Creates a playlist DOM element based on a playlist object.
  */
