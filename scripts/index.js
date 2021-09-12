@@ -85,17 +85,16 @@ function sTOmmss(s) {//gets: SECONDS , returns: "MINUTES:SECONDS".
  * Creates a playlist DOM element based on a playlist object.
  */
 function createPlaylistElement({ id, name, songs }) {
-    const children = []
-    const classes = []
-    const attrs = {}
+
     playlistEl= document.createElement("div")
     playlistEl.setAttribute("onclick", `playplaylist(${id})`)
     nameEl = document.createElement("p")
     nameEl.innerText=name;
     playlistEl.appendChild(nameEl)
 
+
     duration = document.createElement("p")
-    duration.innerText=playlistDuration(id);
+    duration.innerText=songs.length+" songs"+ " , "+playlistDuration(id);
     playlistEl.appendChild(duration)
     return playlistEl;
 }
