@@ -55,7 +55,8 @@ const player = {
             artist: "Wintersun",
             duration: 811,
             coverArt: "./images/cover_art/wintersun_sons_of_winter_and_stars.jpg",
-        },
+        },        
+
     ],
     playlists: [
         { id: 1, name: "Metal", songs: [1, 7, 4, 6] },
