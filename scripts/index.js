@@ -1,24 +1,34 @@
-//playing functions
-let music = undefined
-function playSong(songId) {
-    music = new Audio(songById(songId).audio)
-    music.pause()
-    let child = document.getElementById("songs").firstElementChild
+
+function setZero(Id){
+    let child = document.getElementById(Id).firstElementChild
     for (child.firstElementChild; child; child = child.nextElementSibling) {
         child.style.backgroundColor = ""
-        console.log(child.id)
     }
-    music.play()
-    playingNow = document.getElementById(songId)
-    playingNow.style.backgroundColor = "orange"
-    setTimeout(function () {
-        playingNow.style.backgroundColor = ""
-        music.pause()
-        playSong(playingNow.nextElementSibling.id)
-    }, songById(songId).duration * 100)
 }
 
-function playplaylist(playlistId) {}
+//playing functions
+function play(Id) {
+    setZero("songs")
+    setZero("playlists")
+    if(Id[0]==="p")
+    {
+        playingNow = document.getElementById(Id)
+        playingNow.style.backgroundColor = "orange"
+        setTimeout(function () {
+            playingNow.style.backgroundColor = ""
+            console.log(Id.slice(1,Id.length))
+        }, playlistDuration(parseInt(Id.slice(2,Id.length)))*10)
+    }
+    else{
+    playingNow = document.getElementById(Id)
+    playingNow.style.backgroundColor = "orange"
+
+    setTimeout(function () {
+        playingNow.style.backgroundColor = ""
+    }, songById(Id).duration * 10)
+    }
+}
+
 //CREATING ELEMENTS FUNCTIONS
 
 function createElement(tagname, children = [], classes = [], attributes) {
@@ -61,7 +71,7 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let titleEl = createElement("p", [title], ["bold"])
     return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl], ["song"], {
         id: id,
-        onclick: `playSong(${id})`,
+        onclick: `play(${id})`,
     })
 }
 
@@ -72,7 +82,7 @@ function createAPlaylistElement({ id, name, songs }) {
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
     return createElement("div", [nameEl, numOfSongsEl, durationEl], ["playlist"], {
         id: "pl" + id, //pl stands for a playlist id.
-        onclick: `playplaylist(${id})`,
+        onclick: `play("pl"+${id})`,
     })
 }
 
