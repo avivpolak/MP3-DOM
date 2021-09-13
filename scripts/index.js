@@ -1,19 +1,4 @@
-//playing functions
-function playSong(songId) {
-    playingNow = document.getElementById(songId)
-    playingNow.style.backgroundColor = "orange"
-    setTimeout(function () {
-        playingNow.style.backgroundColor = ""
-    }, songById(songId).duration * 10) //that soppuesed to be 1000, althogh its to much time to wait to check it.
-}
 
-function playplaylist(playlistId) {
-    playingNow = document.getElementById("pl" + playlistId)
-    playingNow.style.backgroundColor = "orange"
-    setTimeout(function () {
-        playingNow.style.backgroundColor = ""
-    }, playlistDuration(playlistId) * 10) //that soppuesed to be * 1000, althogh its to much time to wait to check it.
-}
 
 //CREATING ELEMENTS FUNCTIONS
 
@@ -68,6 +53,113 @@ function createSongElement(
 
     return element
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//playing functions
+function playSong(songId) {
+    playingNow = document.getElementById(songId)
+    playingNow.style.backgroundColor = "orange"
+    setTimeout(function () {
+        playingNow.style.backgroundColor = ""
+    }, songById(songId).duration * 10) //that soppuesed to be 1000, althogh its to much time to wait to check it.
+}
+
+function playplaylist(playlistId) {
+ 
+}
+
+
+
+
+
+function createElement(tagname, children = [], classes=[], attributes) {
+    const el = document.createElement(tagname)
+
+    //children
+
+    for (let child of children) {
+        if (typeof child === "string" || typeof child === "number") {
+            child = document.createTextNode(child)
+        }
+        el.appendChild(child)
+    }
+
+    //classes
+
+    for (const cls of classes) {
+        el.classList.add(cls)
+    }
+
+    //attrubutes
+
+    for (const attr in attributes) {
+        el.setAttribute(attr, attributes[attr])
+    }
+
+    return el
+}
+
+function createASongElement({ id, title, album, artist, duration, coverArt }) {
+    let artistEl = createElement("p", [artist])
+    let durationEl = createElement("p", ["duration: " + sTOmmss(duration)],[],{style: `background-color:${colorDuration(duration)};`})
+    let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
+    let albumEl = createElement("p", [album])
+    let titleEl = createElement("p", [title],["bold"])
+    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl], ["song"], { id: id , "onclick":`playSong(${id})`})
+}
+
+function createAPlaylistElement({id,name,songs}){
+    let nameEl = createElement("p", [name])
+    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))])
+    let numOfSongsEl = createElement("p",[songs.length + " songs."])
+    return createElement("div", [nameEl, numOfSongsEl, durationEl], ["playlist"], { id: "pl"+id , "onclick":`playplaylist(${id})`})//pl stands for a playlist id.
+}
+
+
+for (let song of player.songs) {
+    document.getElementById("songs").appendChild(
+        createASongElement(song)
+    )
+}
+
+for (let playlist of player.playlists) {
+    document.getElementById("playlists").appendChild(
+        createAPlaylistElement(playlist)
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //CREATING PLAYLIST  ELEMENT
 
@@ -149,16 +241,18 @@ function playListById(id) {
 //END OF FUNCTIOS SECTION
 
 // THWE CODE  ITSELF:
-let songElement = document.getElementById("songs") //creating song list
-for (let song of player.songs) {
-    songElement.appendChild(
-        createSongElement("p", song.id, song.title, song.album, song.artist, song.duration, song.coverArt, ["song"], {
-            onclick: `playSong(${song.id})`,
-        })
-    )
-}
+// let songElement = document.getElementById("songs") //creating song list
+// for (let song of player.songs) {
+//     songElement.appendChild(
+//         createSongElement("p", song.id, song.title, song.album, song.artist, song.duration, song.coverArt, ["song"], {
+//             onclick: `playSong(${song.id})`,
+//         })
+//     )
+// }
 
-let playlistElement = document.getElementById("playlists") //creating playlist list
-for (let playlist of player.playlists) {
-    playlistElement.appendChild(createPlaylistElement(playlist))
-}
+// let playlistElement = document.getElementById("playlists") //creating playlist list
+// for (let playlist of player.playlists) {
+//     playlistElement.appendChild(createPlaylistElement(playlist))
+// }
+
+
