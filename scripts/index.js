@@ -1,5 +1,6 @@
 
 function setZero(Id){
+    //sets all the childrens backgrounds to ""
     let child = document.getElementById(Id).firstElementChild
     for (child.firstElementChild; child; child = child.nextElementSibling) {
         child.style.backgroundColor = ""
