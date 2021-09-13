@@ -17,8 +17,28 @@ function playplaylist(playlistId) {
 
 //CREATING ELEMENTS FUNCTIONS
 
-//CREATING SONG ELEMENT
+function cearteLitteElement(name, tagname, parent, id, imgSrc, bold, duration, numberOfSongs, songduration) {
+    let element = document.createElement(tagname)
+    element.innerText = name
+    element.setAttribute("id", name + id)
+    if (tagname === "img") {
+        element.classList.add("art")
+        element.setAttribute("src", imgSrc)
+    }
+    if (bold) {
+        element.classList.add("bold")
+    }
+    if (duration) {
+        element.innerText = numberOfSongs.length + " songs" + " , " + sTOmmss(playlistDuration(id))
+    }
+    if (songduration) {
+        element.innerText = sTOmmss(songduration)
+        element.style.backgroundColor = colorDuration(songduration)
+    }
+    parent.appendChild(element)
+}
 
+//CREATING SONG ELEMENT
 function createSongElement(
     tagName,
     id,
@@ -30,35 +50,14 @@ function createSongElement(
     classes = [],
     attributes = { onclick: `playSong(${id})` }
 ) {
-    // if (type==="song")
     let element = document.createElement("div")
     element.setAttribute("id", id)
     element.setAttribute("role", "button")
-
-    const imgEl = document.createElement("img")
-    imgEl.classList.add("art")
-    imgEl.setAttribute("src", coverArt)
-    element.append(imgEl)
-
-    let titleElement = document.createElement("p")
-    titleElement.innerText = title
-    titleElement.classList.add("bold")
-    element.appendChild(titleElement)
-
-    let albumElement = document.createElement("p")
-    albumElement.innerText = album
-    element.appendChild(albumElement)
-
-    let artistElement = document.createElement("p")
-    artistElement.innerText = artist
-    element.appendChild(artistElement)
-
-    let durationElement = document.createElement("p")
-    durationElement.innerText = sTOmmss(duration)
-
-    durationElement.style.backgroundColor = colorDuration(duration)
-    element.appendChild(durationElement)
-
+    cearteLitteElement("", "img", element, id, coverArt)
+    cearteLitteElement(title, "p", element, id, "", true)
+    cearteLitteElement(album, "p", element, id, "", false)
+    cearteLitteElement(artist, "p", element, id, "", false)
+    cearteLitteElement("", "p", element, id, "", false, "", "", duration)
     for (let classname of classes) {
         element.classList.add(classname)
     }
@@ -75,13 +74,8 @@ function createPlaylistElement({ id, name, songs }) {
     playlistEl = document.createElement("div")
     playlistEl.setAttribute("id", "pl" + id) //pl stands fot playlist, to deferent from song id.
     playlistEl.setAttribute("onclick", `playplaylist(${id})`)
-    nameEl = document.createElement("p")
-    nameEl.innerText = name
-    playlistEl.appendChild(nameEl)
-
-    duration = document.createElement("p")
-    duration.innerText = songs.length + " songs" + " , " + sTOmmss(playlistDuration(id))
-    playlistEl.appendChild(duration)
+    cearteLitteElement(name, "p", playlistEl, id, "", true)
+    cearteLitteElement(name, "p", playlistEl, id, "", false, sTOmmss(playlistDuration(id)), songs)
     return playlistEl
 }
 
