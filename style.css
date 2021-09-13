@@ -19,15 +19,21 @@ img{
     height:15%;
 }
 #playlists > div{
-    background:rgb(150, 12, 12);
+    background:rgb(132, 144, 255);
     border-radius: 40px 40px 20px 20px ;
     margin-top: 20px;
     margin-left: 4px;
     margin-right: 4px;
-    width: 75%;
-    height:75%;
+    margin-bottom: 40px;
+    width: 500px;
+    height:500x;
     text-align: center;
     float: right;
     font-size: 13px;
     font-family: 'Barlow Semi Condensed', sans-serif;}
+h1{
+    text-align: center;
+}
+body{
+    background:rgb(48, 65, 224);
 }
