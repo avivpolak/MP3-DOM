@@ -1,24 +1,28 @@
-
-
 //playing functions
+let music = undefined
 function playSong(songId) {
-    const music = new Audio(songById(songId).audio);
-    music.play();
+    music = new Audio(songById(songId).audio)
+    music.pause()
+    let child = document.getElementById("songs").firstElementChild
+    for (child.firstElementChild; child; child = child.nextElementSibling) {
+        child.style.backgroundColor = ""
+        console.log(child.id)
+    }
+    music.play()
     playingNow = document.getElementById(songId)
     playingNow.style.backgroundColor = "orange"
     setTimeout(function () {
         playingNow.style.backgroundColor = ""
-        music.pause();    
-        playingNow = playingNow.nextElementSibling; 
-        playSong(playingNow.id)
-    }, songById(songId).duration * 1000)
-
+        music.pause()
+        playSong(playingNow.nextElementSibling.id)
+    }, songById(songId).duration * 100)
 }
 
 function playplaylist(playlistId) {}
 //CREATING ELEMENTS FUNCTIONS
 
-function createElement(tagname, children = [], classes = [], attributes) {//the most generic element builder.we will build all the elements here.
+function createElement(tagname, children = [], classes = [], attributes) {
+    //the most generic element builder.we will build all the elements here.
     const el = document.createElement(tagname)
 
     //children
@@ -67,9 +71,9 @@ function createAPlaylistElement({ id, name, songs }) {
     let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))])
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
     return createElement("div", [nameEl, numOfSongsEl, durationEl], ["playlist"], {
-        id: "pl" + id,//pl stands for a playlist id.
+        id: "pl" + id, //pl stands for a playlist id.
         onclick: `playplaylist(${id})`,
-    }) 
+    })
 }
 
 //other functions:
