@@ -39,6 +39,7 @@ function cearteLitteElement(name, tagname, parent, id, imgSrc, bold, duration, n
 }
 
 //CREATING SONG ELEMENT
+
 function createSongElement(
     tagName,
     id,
