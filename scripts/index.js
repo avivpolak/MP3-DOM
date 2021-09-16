@@ -7,85 +7,85 @@ function setZero(Id){
     }
 }
 
-//playing functions
-function play(Id) {
-    setZero("songs")
-    setZero("playlists")
-    if(Id[0]==="p")
-    {
-        playingNow = document.getElementById(Id)
-        playingNow.style.backgroundColor = "orange"
-        setTimeout(function () {
-            playingNow.style.backgroundColor = ""
-            console.log(Id.slice(1,Id.length))
-        }, playlistDuration(parseInt(Id.slice(2,Id.length)))*10)
-    }
-    else{
-    playingNow = document.getElementById(Id)
-    playingNow.style.backgroundColor = "orange"
+// //playing functions
+// function play(Id) {
+//     setZero("songs")
+//     setZero("playlists")
+//     if(Id[0]==="p")
+//     {
+//         playingNow = document.getElementById(Id)
+//         playingNow.style.backgroundColor = "orange"
+//         setTimeout(function () {
+//             playingNow.style.backgroundColor = ""
+//             console.log(Id.slice(1,Id.length))
+//         }, playlistDuration(parseInt(Id.slice(2,Id.length)))*10)
+//     }
+//     else{
+//     playingNow = document.getElementById(Id)
+//     playingNow.style.backgroundColor = "orange"
 
-    setTimeout(function () {
-        playingNow.style.backgroundColor = ""
-    }, songById(Id).duration * 10)
-    }
-}
+//     setTimeout(function () {
+//         playingNow.style.backgroundColor = ""
+//     }, songById(Id).duration * 10)
+//     }
+// }
 
-//CREATING ELEMENTS FUNCTIONS
+// //CREATING ELEMENTS FUNCTIONS
 
-function createElement(tagname, children = [], classes = [], attributes) {
-    //the most generic element builder.we will build all the elements here.
-    const el = document.createElement(tagname)
+// function createElement(tagname, children = [], classes = [], attributes) {
+//     //the most generic element builder.we will build all the elements here.
+//     const el = document.createElement(tagname)
 
-    //children
+//     //children
 
-    for (let child of children) {
-        if (typeof child === "string" || typeof child === "number") {
-            child = document.createTextNode(child)
-        }
-        el.appendChild(child)
-    }
+//     for (let child of children) {
+//         if (typeof child === "string" || typeof child === "number") {
+//             child = document.createTextNode(child)
+//         }
+//         el.appendChild(child)
+//     }
 
-    //classes
+//     //classes
 
-    for (const cls of classes) {
-        el.classList.add(cls)
-    }
+//     for (const cls of classes) {
+//         el.classList.add(cls)
+//     }
 
-    //attrubutes
+//     //attrubutes
 
-    for (const attr in attributes) {
-        el.setAttribute(attr, attributes[attr])
-    }
+//     for (const attr in attributes) {
+//         el.setAttribute(attr, attributes[attr])
+//     }
 
-    return el
-}
+//     return el
+// }
 
-//CREATE A SONG ELEMENT
+// //CREATE A SONG ELEMENT
 
-function createASongElement({ id, title, album, artist, duration, coverArt }) {
-    let artistEl = createElement("p", [artist])
-    let durationEl = createElement("p", ["duration: " + sTOmmss(duration)], [], {
-        style: `background-color:${colorDuration(duration)};`,
-    })
-    let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
-    let albumEl = createElement("p", [album])
-    let titleEl = createElement("p", [title], ["bold"])
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl], ["song"], {
-        id: id,
-        onclick: `play(${id})`,
-    })
-}
+// function createASongElement({ id, title, album, artist, duration, coverArt }) {
+//     let artistEl = createElement("p", [artist])
+//     let durationEl = createElement("p", ["duration: " + sTOmmss(duration)], [], {
+//         style: `background-color:${colorDuration(duration)};`,
+//     })
+//     let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
+//     let albumEl = createElement("p", [album])
+//     let titleEl = createElement("p", [title], ["bold"])
+//     return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl], ["song"], {
+//         id: id,
+//         onclick: `play(${id})`,
+//     })
+// }
 
-//CREATING PLAYLIST  ELEMENT
-function createAPlaylistElement({ id, name, songs }) {
-    let nameEl = createElement("p", [name])
-    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))])
-    let numOfSongsEl = createElement("p", [songs.length + " songs."])
-    return createElement("div", [nameEl, numOfSongsEl, durationEl], ["playlist"], {
-        id: "pl" + id, //pl stands for a playlist id.
-        onclick: `play("pl"+${id})`,
-    })
-}
+// //CREATING PLAYLIST  ELEMENT
+// function createAPlaylistElement({ id, name, songs }) {
+//     let nameEl = createElement("p", [name])
+//     let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))])
+//     let numOfSongsEl = createElement("p", [songs.length + " songs."])
+//     return createElement("div", [nameEl, numOfSongsEl, durationEl], ["playlist"], {
+//         id: "pl" + id, //pl stands for a playlist id.
+//         onclick: `play("pl"+${id})`,
+//     })
+// }
 
 //other functions:
 
@@ -159,12 +159,4 @@ function playListById(id) {
 
 //USING THE FUNCTIONS:
 
-for (let song of player.songs) {
-    //building songs elements
-    document.getElementById("songs").appendChild(createASongElement(song))
-}
 
-for (let playlist of player.playlists) {
-    //building playlists elements
-    document.getElementById("playlists").appendChild(createAPlaylistElement(playlist))
-}
