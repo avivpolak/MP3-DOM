@@ -9,8 +9,11 @@ async function playSong(songId) {
     playingNow = document.getElementById(songId)
     playingNow.classList.add("playing")
     await sleep( songById(parseInt(songId)).duration * 10);
-        playingNow.classList.remove("playing")
-
+    playingNow.classList.remove("playing")
+    const autoPlay =document.getElementById("autoPlay")
+    if(autoPlay.checked && playingNow.nextElementSibling){
+        playSong(playingNow.nextElementSibling.id)
+    } 
 }
 
 function setZero(Id) {
@@ -86,7 +89,6 @@ function addSong({ title, album, artist, duration, coverArt, id = 0 }) {
         // throw new Error(`existent ID,the chosen id is ${newSong.id}`)
     }
     player.songs.push(newSong)
-    console.log(newSong.id)
 }
 
 function isIdExsistInSongs(id) {
@@ -316,7 +318,6 @@ function removeFromPlayLists(songId) {
             }
         }
     }
-    console.log(player.playlists)
 }
 
 function songIndexById(id) {
@@ -351,7 +352,6 @@ function playListIndexById(id) {
         throw new Error("non-existent ID")
     }
     let playlist = playListById(id)
-    console.log(playlist)
     for (let i = 0; i < playlist.songs.length; i++) {
         playSong(playlist.songs[i])
         await sleep(songById(parseInt(playlist.songs[i])).duration * 10);
@@ -379,7 +379,6 @@ function playListById(id) {
     let sum = 0
     for (let i = 0; i < playlist.songs.length; i++) {
         let song = songById(parseInt(playlist.songs[i]))
-        console.log(song)
         sum += song.duration
     }
     return sum
