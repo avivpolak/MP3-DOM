@@ -7,8 +7,8 @@
 function playSong(songId) {
     setZero("songs")
     playingNow = document.getElementById(songId)
-    playingNow.style.backgroundColor = "orange"
-    setTimeout(function (){ playingNow.style.backgroundColor = ""}
+    playingNow.classList.add("playing")
+    setTimeout(function (){ playingNow.classList.remove("playing")}
     , songById(parseInt(songId)).duration * 10)
 }
 
