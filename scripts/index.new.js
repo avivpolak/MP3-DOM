@@ -261,6 +261,7 @@ function handleRemoveSong(songId) {
     if (confirm("are you sure?")) {
         removeSong(songId)
         generateSongs()
+        generatePlaylists()
     }
 }
 function handleRemoveplaylist(playlistId) {
@@ -310,11 +311,12 @@ function removeFromPlayLists(songId) {
 
     for (let i = 0; i < player.playlists.length; i++) {
         for (let j = 0; j < player.playlists[i].songs.length; j++) {
-            if (player.playlists[i].songs[j] === songId) {
+            if (player.playlists[i].songs[j] === parseInt(songId)) {
                 player.playlists[i].songs.splice(j, 1)
             }
         }
     }
+    console.log(player.playlists)
 }
 
 function songIndexById(id) {
@@ -366,3 +368,19 @@ function playListById(id) {
     return undefined
   }
   
+  function playlistDuration(id) {
+    //Parameters: PLAYLIST ID
+    //Returns: PLAYLIST DURATION.
+
+    if (playListById(id) === undefined) {
+        throw new Error("non-existent playlistId")
+    }
+    const playlist = playListById(id)
+    let sum = 0
+    for (let i = 0; i < playlist.songs.length; i++) {
+        let song = songById(parseInt(playlist.songs[i]))
+        console.log(song)
+        sum += song.duration
+    }
+    return sum
+}
