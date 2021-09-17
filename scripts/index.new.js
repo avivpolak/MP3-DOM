@@ -218,7 +218,7 @@ function createAPlaylistElement({ id, name, songs }) {
  * Inserts all songs in the player as DOM elements into the songs list.
  */
 function generateSongs() {
-    removeAllChildNodes(document.getElementById("songs")) //remove all ther songs that maybe there
+    removeAllChildNodes(document.getElementById("songs")) //remove all the songs that maybe there
     document.getElementById("songs")
     for (let song of player.songs) {
         //building songs elements
@@ -228,6 +228,7 @@ function generateSongs() {
 
 //removeing the exsisting chileds from element
 function removeAllChildNodes(parent) {
+    
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild)
     }
@@ -237,6 +238,7 @@ function removeAllChildNodes(parent) {
  * Inserts all playlists in the player as DOM elements into the playlists list.
  */
 function generatePlaylists() {
+    removeAllChildNodes(document.getElementById("playlists")) //remove all playlists songs that maybe there
     for (let playlist of player.playlists) {
         //building playlists elements
         document.getElementById("playlists").appendChild(createAPlaylistElement(playlist))
@@ -261,11 +263,28 @@ function handleRemoveSong(songId) {
         generateSongs()
     }
 }
+function handleRemoveplaylist(playlistId) {
+    if (confirm("are you sure?")) {
+        removePlaylist(playlistId)
+        generatePlaylists()
+    }
+}
+
+function removePlaylist(id) {
+    //Parameters: PLAYLIST ID 
+    //--> REMOVES PLAYLIST FROM PLAYER.
+
+    if (playListIndexById(id) === -1) {
+      throw new Error('non-existent ID')
+    }
+    player.playlists.splice(playListIndexById(id), 1)
+  }
+  
 
 function handlePlayListEvent(event) {
     const target = event.target.parentElement
     if (event.target.name === "play") playPlaylist(target.id) //activate play funcion only if the BUTTON is clicked
-    if (event.target.name === "remove") handleRemoveSong(target.id)
+    if (event.target.name === "remove") handleRemoveplaylist(target.id)
 }
 
 function handleSongEvent(event) {
@@ -281,7 +300,6 @@ function removeSong(id) {
     if (songIndexById(id) === -1) {
         throw new Error("non-existent ID")
     }
-    console.log(songIndexById(id))
     player.songs.splice(songIndexById(id), 1)
     removeFromPlayLists(id)
 }
