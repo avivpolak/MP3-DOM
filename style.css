@@ -1,13 +1,28 @@
 /* Your code here */
-div {
+#songs{
+    float: left;
+    width: 70%;
+}
+#playlists{
+    float: right;
+    width: 30%;}
 
+#add-section{
+    float: left;
+    width: 70%;
+}
+#autoPlay{
+    float: left;
+    width: 70%; 
+}
+
+div {
     border-radius: 40px 40px 20px 20px;
-    margin-top: 20px;
-    margin-left: 4px;
-    margin-right: 4px;
+
     text-align: center;
     font-family: "Barlow Semi Condensed", sans-serif;
     display: inline-block;
+    font-size: xx-large;
 }
 
 #songs > div{
@@ -23,11 +38,27 @@ div {
 
 
 }
-#songs > div> p{
+input , button{
+    font-size: xx-large;
+}
+#playlists > div{
+    background:  rgb(172, 172, 172);
+    border-radius: 40px 40px 20px 20px;
+    margin-top: 20px;
+    margin-left: 4px;
+    margin-right: 4px;
+    text-align: center;
+    width:90%;
+    font-family: "Barlow Semi Condensed", sans-serif;
+    padding: 20px;
+    float: left;
+
+}
+div> p{
    float: left;
    margin: 10px;
 }
-#songs > div> button{
+div> button{
     float: right;
     font-size: 30px;
 
@@ -36,7 +67,7 @@ div {
     float: right;
 
 }
-#songs > div> img{
+ div> img{
     width: 100px;
     float: left;
 }
@@ -53,20 +84,7 @@ img {
     width: 15%;
     height: 15%;
 }
-#playlists > div {
-    background: rgb(132, 144, 255);
-    border-radius: 40px 40px 20px 20px;
-    margin-top: 20px;
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-bottom: 40px;
-    width: 500px;
-    height: 500x;
-    text-align: center;
-    float: right;
-    font-size: 13px;
-    font-family: "Barlow Semi Condensed", sans-serif;
-}
+
 h1 {
     text-align: center;
 }
@@ -76,7 +94,9 @@ h1 {
     box-shadow: 2px 2px 4px #000000;
 }
 
-
+.hide{
+    display: none;
+}
 
 
 /* The switch - the box around the slider */

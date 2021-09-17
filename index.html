@@ -4,41 +4,43 @@
         <meta charset="UTF-8" />
         <title>aviv'Spotify</title>
         <link rel="shortcut icon" type="image/x-icon" href="./images/icon.png" />
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./style.css" />
         <script src="./scripts/player.js"></script>
         <script src="./scripts/index.js" defer></script>
         <script src="./scripts/index.new.js" defer></script>
     </head>
     <body>
         <h1>AVIV'SPOTIFY</h1>
-        <div id="add-section">
+
+        <h1>songs</h1>
+        <div>
+            <label>auto play:</label>
+            <label>off</label>
+            <label class="switch">
+                <input id="autoPlay" type="checkbox" />
+                <span class="slider round"></span>
+            </label>
+            <label>on</label>
+        </div>
+        <button id="show-add-section">Add a new song</button>
+
+        <div id="add-section" class="hide">
             <h2>Add a new song</h2>
             <div id="inputs">
-                <input id="title" placeholder="Title">
-                <input id="album" placeholder="Album">
-                <input id="artist" placeholder="Artist">
-                <input id="duration" placeholder="Duration (mm:ss)">
-                <input id="cover-art" placeholder="Cover art link">
+                <input id="title" placeholder="Title" />
+                <input id="album" placeholder="Album" />
+                <input id="artist" placeholder="Artist" />
+                <input id="duration" placeholder="Duration (mm:ss)" />
+                <input id="cover-art" placeholder="Cover art link" />
             </div>
             <button id="add-button">Add</button>
         </div>
-        
-         <h1>songs</h1>
-         <div>
-        <label>auto play:</label>
-        <label>off</label>
-        <label class="switch">
-            <input id="autoPlay" type="checkbox">
-            <span class="slider round"></span>
-        </label>
-        <label>on</label>
-        </div> 
-        <div id="songs"><h1>songs</h1>
+        <div id="songs">
+            <h1>songs</h1>
             <!-- Generated songs go here -->
         </div>
         <h1>playlists</h1>
         <div id="playlists">
-            
             <!-- Generated playlists go here -->
         </div>
     </body>

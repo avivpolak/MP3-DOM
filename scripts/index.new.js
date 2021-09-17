@@ -7,21 +7,24 @@
 
 async function playSong(songId) {
     setZero("songs")
+    setZero("playlists")
     playingNow = document.getElementById(songId)
     playingNow.classList.add("playing")
-    await sleep( songById(parseInt(songId)).duration * 10);
+    await sleep(songById(parseInt(songId)).duration * 10)
     playingNow.classList.remove("playing")
-    const autoPlay =document.getElementById("autoPlay")
-    if(autoPlay.checked && playingNow.nextElementSibling){
+    const autoPlay = document.getElementById("autoPlay")
+    console.log(autoPlay.checked)
+    if (autoPlay.checked && playingNow.nextElementSibling) {
+        console.log("somethind")
         playSong(playingNow.nextElementSibling.id)
-    } 
+    }
 }
 
 async function playSongInPlaylist(songId) {
     setZero("songs")
     playingNow = document.getElementById(songId)
     playingNow.classList.add("playing")
-    await sleep( songById(parseInt(songId)).duration * 10);
+    await sleep(songById(parseInt(songId)).duration * 10)
     playingNow.classList.remove("playing")
 }
 
@@ -218,11 +221,11 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
 //CREATING PLAYLIST  ELEMENT
 function createAPlaylistElement({ id, name, songs }) {
     let nameEl = createElement("p", [name])
-    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))])
+    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))],["duration"])
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
     let playBtn = createElement("button", ["▶"], [], { name: "play" })
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
-    return createElement("div", [nameEl, numOfSongsEl, durationEl, playBtn, removeBtn], ["playlist"], {id: id })
+    return createElement("div", [nameEl, numOfSongsEl, durationEl, playBtn, removeBtn], ["playlist"], { id: "pl" + id })
 }
 
 /**
@@ -231,7 +234,8 @@ function createAPlaylistElement({ id, name, songs }) {
 function generateSongs() {
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs that maybe there
     document.getElementById("songs")
-    for (let song of player.songs) {
+    let sorted = player.songs.sort(compare)
+    for (let song of sorted) {
         //building songs elements
         document.getElementById("songs").appendChild(createASongElement(song))
     }
@@ -239,7 +243,6 @@ function generateSongs() {
 
 //removeing the exsisting chileds from element
 function removeAllChildNodes(parent) {
-    
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild)
     }
@@ -283,20 +286,20 @@ function handleRemoveplaylist(playlistId) {
 }
 
 function removePlaylist(id) {
-    //Parameters: PLAYLIST ID 
+    //Parameters: PLAYLIST ID
     //--> REMOVES PLAYLIST FROM PLAYER.
 
     if (playListIndexById(id) === -1) {
-      throw new Error('non-existent ID')
+        throw new Error("non-existent ID")
     }
     player.playlists.splice(playListIndexById(id), 1)
-  }
-  
+}
 
 function handlePlayListEvent(event) {
-    const target = event.target.parentElement
-    if (event.target.name === "play") playPlaylist(target.id) //activate play funcion only if the BUTTON is clicked
-    if (event.target.name === "remove") handleRemoveplaylist(target.id)
+    const targetid = event.target.parentElement.id
+    let cleanId = targetid.slice(2, targetid.length)
+    if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the BUTTON is clicked
+    if (event.target.name === "remove") handleRemoveplaylist(cleanId)
 }
 
 function handleSongEvent(event) {
@@ -339,45 +342,49 @@ function songIndexById(id) {
 }
 
 function playListIndexById(id) {
-    //Parameters: PLAYLIST ID 
+    //Parameters: PLAYLIST ID
     //Returns: PLAYLIST INDEX.
 
     for (let i = 0; i < player.playlists.length; i++) {
-      if (player.playlists[i]["id"] === parseInt(id)) return parseInt(i)
+        if (player.playlists[i]["id"] === parseInt(id)) return parseInt(i)
     }
     return -1
-  }
-  
+}
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
- async function playPlaylist(id) {
+async function playPlaylist(id) {
     //Parameters: PLAYLIST ID
     //--> PLAYS ALL SONGS IN PLAYLIST.
-
+    setZero("playlists")
     if (playListIndexById(id) === -1) {
         throw new Error("non-existent ID")
     }
     let playlist = playListById(id)
-    for (let i = 0; i < playlist.songs.length; i++) {
+    const playlistElement = document.getElementById("pl" + id)
+    playlistElement.classList.add("playing") //for css to show the playing playlist
+
+    for (let i = 0; i < playlist.songs.length && playlistElement.matches(".playing"); i++) {
+        // continue only if this playlist is still is in requiered to play
         playSongInPlaylist(playlist.songs[i])
-        await sleep(songById(parseInt(playlist.songs[i])).duration * 10);
+        await sleep(songById(parseInt(playlist.songs[i])).duration * 10)
     }
+    playlistElement.classList.remove("playing") //for css to stop show the playing playlist
 }
 
 function playListById(id) {
-    //Parameters: PLAYLIST ID 
+    //Parameters: PLAYLIST ID
     //Returns: THE MATCHING PLAYLIST.
 
     for (let i = 0; i < player.playlists.length; i++) {
-      if (player.playlists[i]['id'] === parseInt(id)) return player.playlists[i]
+        if (player.playlists[i]["id"] === parseInt(id)) return player.playlists[i]
     }
     return undefined
-  }
-  
-  function playlistDuration(id) {
+}
+
+function playlistDuration(id) {
     //Parameters: PLAYLIST ID
     //Returns: PLAYLIST DURATION.
 
@@ -391,4 +398,29 @@ function playListById(id) {
         sum += song.duration
     }
     return sum
+}
+
+function compare(a, b) {
+    //defining how .SORT function works- for alpha-betic sorting.
+    //-->FOR SONGS criterion ="title"
+    //-->FOR PLAYLISTS criterion ="name"
+
+    let fa = a["title"].toLowerCase(),
+        fb = b["title"].toLowerCase()
+    if (fa < fb) {
+        return -1
+    }
+    if (fa > fb) {
+        return 1
+    }
+    return 0
+}
+
+
+
+const addSectionBtn = document.getElementById("show-add-section") 
+addSectionBtn.addEventListener("click",toggleAddSection)
+function toggleAddSection(){
+   let addsection = document.getElementById("add-section")
+   addsection.classList.toggle("hide")
 }
