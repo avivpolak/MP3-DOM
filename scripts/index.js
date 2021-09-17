@@ -102,21 +102,7 @@ function sTOmmss(s) {
 }
 
 
-function playlistDuration(id) {
-    //Parameters: PLAYLIST ID
-    //Returns: PLAYLIST DURATION.
 
-    if (playListById(id) === undefined) {
-        throw new Error("non-existent playlistId")
-    }
-    const playlist = playListById(id)
-    let sum = 0
-    for (let i = 0; i < playlist.songs.length; i++) {
-        let song = songById(playlist.songs[i])
-        sum += song.duration
-    }
-    return sum
-}
 
 // function songById(id) {
 //     //Parameters: SONG ID
