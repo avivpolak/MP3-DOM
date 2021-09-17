@@ -6,8 +6,8 @@ div {
     margin-left: 4px;
     margin-right: 4px;
     text-align: center;
-    float: right;
     font-family: "Barlow Semi Condensed", sans-serif;
+    display: inline-block;
 }
 
 #songs > div{
@@ -17,7 +17,7 @@ div {
     margin-left: 4px;
     margin-right: 4px;
     text-align: center;
-    width:70%;
+    width:90%;
     font-family: "Barlow Semi Condensed", sans-serif;
     padding: 20px;
 

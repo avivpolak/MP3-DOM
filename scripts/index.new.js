@@ -4,12 +4,13 @@
  *
  * @param {Number} songId - the ID of the song to play
  */
-function playSong(songId) {
+async function playSong(songId) {
     setZero("songs")
     playingNow = document.getElementById(songId)
     playingNow.classList.add("playing")
-    setTimeout(function (){ playingNow.classList.remove("playing")}
-    , songById(parseInt(songId)).duration * 10)
+    await sleep( songById(parseInt(songId)).duration * 10);
+        playingNow.classList.remove("playing")
+
 }
 
 function setZero(Id) {
@@ -20,18 +21,14 @@ function setZero(Id) {
     }
 }
 
-
-
 function songById(id) {
     //Parameters: SONG ID
     //Returns: THE MATCHING SONG.
-   for (let song of player.songs) {
-     if (song.id === id) return song
-   }
-   return undefined
- }
-
-
+    for (let song of player.songs) {
+        if (song.id === id) return song
+    }
+    return undefined
+}
 
 //playing functions
 // function play(Id) {
@@ -190,10 +187,6 @@ function colorDuration(duration) {
     return `rgb(${red},${green},0)`
 }
 
-
-
-
-
 //CREATE A SONG ELEMENT
 
 function createASongElement({ id, title, album, artist, duration, coverArt }) {
@@ -204,9 +197,11 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
     let albumEl = createElement("p", [album])
     let titleEl = createElement("p", [title], ["bold"])
-    let playBtn = createElement("button", ["▶"], [], {name:"play"})
-    let removeBtn = createElement("button", ["❌"], [], {name:"remove"})
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, removeBtn,playBtn], ["song"], {id: id})
+    let playBtn = createElement("button", ["▶"], [], { name: "play" })
+    let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
+    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, removeBtn, playBtn], ["song"], {
+        id: id,
+    })
 }
 
 //CREATING PLAYLIST  ELEMENT
@@ -214,17 +209,16 @@ function createAPlaylistElement({ id, name, songs }) {
     let nameEl = createElement("p", [name])
     let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))])
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
-    return createElement("div", [nameEl, numOfSongsEl, durationEl], ["playlist"], {
-        id: "pl" + id, //pl stands for a playlist id.
-        onclick: `play("pl"+${id})`,
-    })
+    let playBtn = createElement("button", ["▶"], [], { name: "play" })
+    let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
+    return createElement("div", [nameEl, numOfSongsEl, durationEl, playBtn, removeBtn], ["playlist"], {id: id })
 }
 
 /**
  * Inserts all songs in the player as DOM elements into the songs list.
  */
 function generateSongs() {
-    removeAllChildNodes(document.getElementById("songs"))//remove all ther songs that maybe there
+    removeAllChildNodes(document.getElementById("songs")) //remove all ther songs that maybe there
     document.getElementById("songs")
     for (let song of player.songs) {
         //building songs elements
@@ -257,57 +251,100 @@ generatePlaylists()
 document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
 
 //making the play button actually work
-document.getElementById("songs").addEventListener("click",handleSongEvent)
+document.getElementById("songs").addEventListener("click", handleSongEvent)
 
-function handleRemoveSong(songId){
-    if(confirm("are you sure?")){
-    removeSong(songId)
-    generateSongs()
-}
-}
+document.getElementById("playlists").addEventListener("click", handlePlayListEvent)
 
-function handleSongEvent(event){
-    const target = event.target.parentElement;
-    if (event.target.name ==="play")playSong(target.id)//activate play funcion only if the BUTTON is clicked
-    if (event.target.name ==="remove")handleRemoveSong(target.id)
+function handleRemoveSong(songId) {
+    if (confirm("are you sure?")) {
+        removeSong(songId)
+        generateSongs()
+    }
 }
 
+function handlePlayListEvent(event) {
+    const target = event.target.parentElement
+    if (event.target.name === "play") playPlaylist(target.id) //activate play funcion only if the BUTTON is clicked
+    if (event.target.name === "remove") handleRemoveSong(target.id)
+}
 
+function handleSongEvent(event) {
+    const target = event.target.parentElement
+    if (event.target.name === "play") playSong(target.id) //activate play funcion only if the BUTTON is clicked
+    if (event.target.name === "remove") handleRemoveSong(target.id)
+}
 
 function removeSong(id) {
-    //Parameters: SONG ID 
+    //Parameters: SONG ID
     //--> REMOVING THE SONG, FROM PLAYER & PLAYLIST (activatie remove-from-playilist function).
 
     if (songIndexById(id) === -1) {
-      throw new Error('non-existent ID')
+        throw new Error("non-existent ID")
     }
     console.log(songIndexById(id))
     player.songs.splice(songIndexById(id), 1)
     removeFromPlayLists(id)
-  }
+}
 
-
-
-  function removeFromPlayLists(songId) {
-    //Parameters: SONG ID 
+function removeFromPlayLists(songId) {
+    //Parameters: SONG ID
     //--> REMOVES IT FROM *ALL* PLAYLISTS.
 
     for (let i = 0; i < player.playlists.length; i++) {
-      for (let j = 0; j < player.playlists[i].songs.length; j++) {
-        if (player.playlists[i].songs[j] === songId) {
-          player.playlists[i].songs.splice(j, 1)
+        for (let j = 0; j < player.playlists[i].songs.length; j++) {
+            if (player.playlists[i].songs[j] === songId) {
+                player.playlists[i].songs.splice(j, 1)
+            }
         }
-      }
     }
-  }
-  
+}
 
-  
 function songIndexById(id) {
     //Parameters: SONG ID
     //Returns: SONG INDEX.
-    for (let i=0; i<player.songs.length;i++) {
-      if (player.songs[i]['id'] ===parseInt(id)) return parseInt(i)
+    for (let i = 0; i < player.songs.length; i++) {
+        if (player.songs[i]["id"] === parseInt(id)) return parseInt(i)
+    }
+    return -1
+}
+
+function playListIndexById(id) {
+    //Parameters: PLAYLIST ID 
+    //Returns: PLAYLIST INDEX.
+
+    for (let i = 0; i < player.playlists.length; i++) {
+      if (player.playlists[i]["id"] === parseInt(id)) return parseInt(i)
     }
     return -1
   }
+  
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+ async function playPlaylist(id) {
+    //Parameters: PLAYLIST ID
+    //--> PLAYS ALL SONGS IN PLAYLIST.
+
+    if (playListIndexById(id) === -1) {
+        throw new Error("non-existent ID")
+    }
+    let playlist = playListById(id)
+    console.log(playlist)
+    for (let i = 0; i < playlist.songs.length; i++) {
+        playSong(playlist.songs[i])
+        await sleep(songById(parseInt(playlist.songs[i])).duration * 10);
+    }
+}
+
+function playListById(id) {
+    //Parameters: PLAYLIST ID 
+    //Returns: THE MATCHING PLAYLIST.
+
+    for (let i = 0; i < player.playlists.length; i++) {
+      if (player.playlists[i]['id'] === parseInt(id)) return player.playlists[i]
+    }
+    return undefined
+  }
+  
