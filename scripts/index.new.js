@@ -13,9 +13,7 @@ async function playSong(songId) {
     await sleep(songById(parseInt(songId)).duration * 10)
     playingNow.classList.remove("playing")
     const autoPlay = document.getElementById("autoPlay")
-    console.log(autoPlay.checked)
     if (autoPlay.checked && playingNow.nextElementSibling) {
-        console.log("somethind")
         playSong(playingNow.nextElementSibling.id)
     }
 }
@@ -220,12 +218,15 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
 
 //CREATING PLAYLIST  ELEMENT
 function createAPlaylistElement({ id, name, songs }) {
-    let nameEl = createElement("p", [name])
+    let nameEl = createElement("p", [name],[])
+    let newNameInput = createElement("input",[], ["hide"],{"type":"text" ,"id":"newName"+id})
+    let okBtn = createElement("button", ["✔"], ["hide"],{ "name": "okBtn" ,"id":"okBtn"+id})
     let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))], ["duration"])
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
     let playBtn = createElement("button", ["▶"], [], { name: "play" })
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
-    return createElement("div", [nameEl, numOfSongsEl, durationEl, playBtn, removeBtn], ["playlist"], {
+    let renameBtn = createElement("button", ["rename"], [], { name: "PlaylistName" })
+    return createElement("div", [nameEl,newNameInput,okBtn, numOfSongsEl, durationEl, playBtn, removeBtn,renameBtn], ["playlist"], {
         id: "pl" + id,
     })
 }
@@ -302,7 +303,21 @@ function handlePlayListEvent(event) {
     let cleanId = targetid.slice(2, targetid.length)
     if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the BUTTON is clicked
     if (event.target.name === "remove") handleRemoveplaylist(cleanId)
+    if (event.target.name === "PlaylistName")showRenameBar(cleanId)
+    if (event.target.name === "okBtn")handleRenamePlayList(cleanId)
 }
+function showRenameBar(Id){
+    let renameTextBox =document.getElementById("newName"+Id)
+    renameTextBox.classList.toggle("hide")
+    let okBtn =document.getElementById("okBtn"+Id)
+    okBtn.classList.toggle("hide")
+}
+function handleRenamePlayList(id){
+    let newName=document.getElementById("newName"+id).value
+    renamePlayList(id,newName)
+    generatePlaylists()
+}
+
 
 function handleSongEvent(event) {
     const target = event.target.parentElement
@@ -513,6 +528,17 @@ function handleAddAutoPlaylistEvent(){
     generatePlaylists()
 }
 
+
+
+
+
+function renamePlayList(id,newName){
+    //gets: PLAYLIST ID & NEW NAME
+    //--> RENAME THE PLAYLIST
+  
+      playListById(id).name=newName;
+}
+ 
 
 
 //janere
