@@ -4,6 +4,7 @@
  *
  * @param {Number} songId - the ID of the song to play
  */
+
 async function playSong(songId) {
     setZero("songs")
     playingNow = document.getElementById(songId)
@@ -14,6 +15,14 @@ async function playSong(songId) {
     if(autoPlay.checked && playingNow.nextElementSibling){
         playSong(playingNow.nextElementSibling.id)
     } 
+}
+
+async function playSongInPlaylist(songId) {
+    setZero("songs")
+    playingNow = document.getElementById(songId)
+    playingNow.classList.add("playing")
+    await sleep( songById(parseInt(songId)).duration * 10);
+    playingNow.classList.remove("playing")
 }
 
 function setZero(Id) {
@@ -353,7 +362,7 @@ function playListIndexById(id) {
     }
     let playlist = playListById(id)
     for (let i = 0; i < playlist.songs.length; i++) {
-        playSong(playlist.songs[i])
+        playSongInPlaylist(playlist.songs[i])
         await sleep(songById(parseInt(playlist.songs[i])).duration * 10);
     }
 }
