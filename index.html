@@ -13,7 +13,7 @@
         <h1>AVIV'SPOTIFY</h1>
 
         <h1>songs</h1>
-        <div>
+        <div id="songsOpt">
             <label>auto play:</label>
             <label>off</label>
             <label class="switch">
@@ -21,10 +21,9 @@
                 <span class="slider round"></span>
             </label>
             <label>on</label>
+
+            <button id="showAddSection">Add a new song</button>
         </div>
-        <button id="showAddSection">Add a new song</button>
-
-
         <div id="add-section" class="hide">
             <h2>Add a new song</h2>
             <div id="inputs">
@@ -42,8 +41,17 @@
         </div>
         <h1>playlists</h1>
         <div id="addPlaylist">
+            <h2>Add playlist</h2>
             <input id="playlistName" type="text" placeholder="new playlist's name" />
             <button id="addPlaylistButton">Add playlist</button>
+            <h2>create an auto playlist:</h2>
+
+            <select name="criterion" id="criterion">
+                <option value="artist">artist</option>
+                <option value="album">album</option>
+            </select>
+            <input id="playlistBy" type="text" placeholder="a playlist By..." />
+            <button id="addAutoPlaylistButton">Add auto playlist</button>
         </div>
         <div id="playlists">
             <!-- Generated playlists go here -->

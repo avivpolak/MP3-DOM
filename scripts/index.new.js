@@ -455,6 +455,43 @@ function createPlaylist(name, id = 0) {
     player.playlists.push(newPlayList)
     return newPlayList.id
   }
+
+  function albumPlaylist(album){
+    //gets: ALBUM NAME 
+    //--> CEATE A PLAYLIST FOR ALL THE SONGS FROM THAT ALBUM
+    //returns: NEW PLAYLIST ID.
+  
+    playlistId=createPlaylist(album);
+    for(let i = 0; i < player.songs.length; i++){
+      if(player.songs[i].album===album)
+        {
+          addToPlayList(player.songs[i].id,playlistId)
+        }
+    }
+    return playlistId;
+  }
+  
+ function artistPlaylist(artist){
+    //gets: ARTIST NAME 
+    //--> CEATE A PLAYLIST FOR ALL THE SONGS OF THAT ARTIST.
+    //returns: NEW PLAYLIST ID.
+    
+    playlistId=createPlaylist(artist);
+    for(let i = 0; i < player.songs.length; i++){
+      if(player.songs[i].artist===artist)
+        {
+          addToPlayList(player.songs[i].id,playlistId)
+        }
+    }
+    return playlistId;
+  }
+  function addToPlayList(songId, playlistId) {
+    //Parameters: SONG ID & PLAYLIST ID 
+    //--> ADDS SONG TO PLAYLIST.
+
+    let song = songById(songId)
+    player.playlists[playListIndexById(playlistId)].songs.push(song.id)
+  }
   
 
 const addPlaylistBtn =document.getElementById("addPlaylistButton")
@@ -465,4 +502,17 @@ function handleAddPlaylistEvent(){
     createPlaylist(name)
     generatePlaylists()
 }
+
+const addAutoPlaylistBtn =document.getElementById("addAutoPlaylistButton")
+addAutoPlaylistBtn.addEventListener("click",handleAddAutoPlaylistEvent)
+
+function handleAddAutoPlaylistEvent(){
+    const name = document.getElementById("playlistBy").value
+    if(document.getElementById("criterion").value==="artist")artistPlaylist(name)
+    if(document.getElementById("criterion").value==="album")albumPlaylist(name)
+    generatePlaylists()
+}
+
+
+
 //janere
