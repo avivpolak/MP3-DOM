@@ -5,13 +5,14 @@
  * @param {Number} songId - the ID of the song to play
  */
 function playSong(songId) {
-    // Your code here
+    setZero("songs")
+    playingNow = document.getElementById(songId)
+    playingNow.style.backgroundColor = "orange"
+    setTimeout(function (){ playingNow.style.backgroundColor = ""}
+    , songById(parseInt(songId)).duration * 10)
 }
 
-
-
-
-function setZero(Id){
+function setZero(Id) {
     //sets all the childrens backgrounds to ""
     let child = document.getElementById(Id).firstElementChild
     for (child.firstElementChild; child; child = child.nextElementSibling) {
@@ -19,35 +20,39 @@ function setZero(Id){
     }
 }
 
+
+
+function songById(id) {
+    //Parameters: SONG ID
+    //Returns: THE MATCHING SONG.
+   for (let song of player.songs) {
+     if (song.id === id) return song
+   }
+   return undefined
+ }
+
+
+
 //playing functions
-function play(Id) {
-    setZero("songs")
-    setZero("playlists")
-    if(Id[0]==="p")
-    {
-        playingNow = document.getElementById(Id)
-        playingNow.style.backgroundColor = "orange"
-        setTimeout(function () {
-            playingNow.style.backgroundColor = ""
-            console.log(Id.slice(1,Id.length))
-        }, playlistDuration(parseInt(Id.slice(2,Id.length)))*10)
-    }
-    else{
-    playingNow = document.getElementById(Id)
-    playingNow.style.backgroundColor = "orange"
+// function play(Id) {
+//     setZero("songs")
+//     setZero("playlists")
+//     if (Id[0] === "p") {
+//         playingNow = document.getElementById(Id)
+//         playingNow.style.backgroundColor = "orange"
+//         setTimeout(function () {
+//             playingNow.style.backgroundColor = ""
+//             console.log(Id.slice(1, Id.length))
+//         }, playlistDuration(parseInt(Id.slice(2, Id.length))) * 10)
+//     } else {
+//         playingNow = document.getElementById(Id)
+//         playingNow.style.backgroundColor = "orange"
 
-    setTimeout(function () {
-        playingNow.style.backgroundColor = ""
-    }, songById(Id).duration * 10)
-    }
-}
-
-
-
-
-
-
-
+//         setTimeout(function () {
+//             playingNow.style.backgroundColor = ""
+//         }, songById(Id).duration * 10)
+//     }
+// }
 
 /**
  * Removes a song from the player, and updates the DOM to match.
@@ -92,10 +97,10 @@ function isIdExsistInSongs(id) {
     //Returns: IS SONG ID EXSIST.
 
     for (let i = 0; i < player.songs.length; i++) {
-      if (player.songs[i]['id'] === id) return true
+        if (player.songs[i]["id"] === id) return true
     }
     return false
-  }
+}
 function mmssTOs(mmss) {
     //Parameters: "MINUTES:SECONDS"
     //Returns: SECONDS.
@@ -176,10 +181,8 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
     let albumEl = createElement("p", [album])
     let titleEl = createElement("p", [title], ["bold"])
-    let playBtn = createElement("button", ["play"], [],[],{"click":play})
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl,playBtn], ["song"], {
-        id: id
-    })
+    let playBtn = createElement("button", ["play"], [], [])
+    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, playBtn], ["song"], {id: id})
 }
 
 //CREATING PLAYLIST  ELEMENT
@@ -193,12 +196,11 @@ function createAPlaylistElement({ id, name, songs }) {
     })
 }
 
-
 /**
  * Inserts all songs in the player as DOM elements into the songs list.
  */
 function generateSongs() {
-    removeAllChildNodes(document.getElementById("songs"))
+    removeAllChildNodes(document.getElementById("songs"))//remove all ther songs that maybe there
     document.getElementById("songs")
     for (let song of player.songs) {
         //building songs elements
@@ -206,10 +208,10 @@ function generateSongs() {
     }
 }
 
-
+//removeing the exsisting chileds from element
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+        parent.removeChild(parent.firstChild)
     }
 }
 
@@ -229,3 +231,12 @@ generatePlaylists()
 
 // Making the add-song-button actually do something
 document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
+
+//making the play button actually work
+document.getElementById("songs").addEventListener("click",handlePlaySongEvent)
+
+
+function handlePlaySongEvent(event){
+    const target = event.target.parentElement;
+    if (event.target.tagName ==="BUTTON")playSong(target.id)//activate play funcion only if the BUTTON is clicked
+}

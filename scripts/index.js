@@ -1,11 +1,11 @@
 
-function setZero(Id){
-    //sets all the childrens backgrounds to ""
-    let child = document.getElementById(Id).firstElementChild
-    for (child.firstElementChild; child; child = child.nextElementSibling) {
-        child.style.backgroundColor = ""
-    }
-}
+// function setZero(Id){
+//     //sets all the childrens backgrounds to ""
+//     let child = document.getElementById(Id).firstElementChild
+//     for (child.firstElementChild; child; child = child.nextElementSibling) {
+//         child.style.backgroundColor = ""
+//     }
+// }
 
 // //playing functions
 // function play(Id) {
@@ -135,15 +135,15 @@ function playlistDuration(id) {
     return sum
 }
 
-function songById(id) {
-    //Parameters: SONG ID
-    //Returns: THE MATCHING SONG.
+// function songById(id) {
+//     //Parameters: SONG ID
+//     //Returns: THE MATCHING SONG.
 
-    for (let i = 0; i < player.songs.length; i++) {
-        if (player.songs[i]["id"] === id) return player.songs[i]
-    }
-    return undefined
-}
+//     for (let i = 0; i < player.songs.length; i++) {
+//         if (player.songs[i]["id"] === id) return player.songs[i]
+//     }
+//     return undefined
+// }
 
 function playListById(id) {
     //Parameters: PLAYLIST ID
