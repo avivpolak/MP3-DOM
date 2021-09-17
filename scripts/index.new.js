@@ -213,22 +213,27 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
     return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, removeBtn, playBtn], ["song"], {
         id: id,
-    },)
+    })
 }
 
 //CREATING PLAYLIST  ELEMENT
 function createAPlaylistElement({ id, name, songs }) {
-    let nameEl = createElement("p", [name],[])
-    let newNameInput = createElement("input",[], ["hide"],{"type":"text" ,"id":"newName"+id})
-    let okBtn = createElement("button", ["✔"], ["hide"],{ "name": "okBtn" ,"id":"okBtn"+id})
+    let nameEl = createElement("p", [name], [])
+    let newNameInput = createElement("input", [], ["hide"], { type: "text", id: "newName" + id })
+    let okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtn" + id })
     let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))], ["duration"])
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
     let playBtn = createElement("button", ["▶"], [], { name: "play" })
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
     let renameBtn = createElement("button", ["rename"], [], { name: "PlaylistName" })
-    return createElement("div", [nameEl,newNameInput,okBtn, numOfSongsEl, durationEl, playBtn, removeBtn,renameBtn], ["playlist"], {
-        id: "pl" + id,
-    })
+    return createElement(
+        "div",
+        [nameEl, newNameInput, okBtn, numOfSongsEl, durationEl, playBtn, removeBtn, renameBtn],
+        ["playlist"],
+        {
+            id: "pl" + id,
+        }
+    )
 }
 
 /**
@@ -237,7 +242,7 @@ function createAPlaylistElement({ id, name, songs }) {
 function generateSongs() {
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs that maybe there
     document.getElementById("songs")
-    let sorted = player.songs.sort(compare)
+    let sorted = player.songs.sort(compares)
     for (let song of sorted) {
         //building songs elements
         document.getElementById("songs").appendChild(createASongElement(song))
@@ -303,21 +308,20 @@ function handlePlayListEvent(event) {
     let cleanId = targetid.slice(2, targetid.length)
     if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the BUTTON is clicked
     if (event.target.name === "remove") handleRemoveplaylist(cleanId)
-    if (event.target.name === "PlaylistName")showRenameBar(cleanId)
-    if (event.target.name === "okBtn")handleRenamePlayList(cleanId)
+    if (event.target.name === "PlaylistName") showRenameBar(cleanId)
+    if (event.target.name === "okBtn") handleRenamePlayList(cleanId)
 }
-function showRenameBar(Id){
-    let renameTextBox =document.getElementById("newName"+Id)
+function showRenameBar(Id) {
+    let renameTextBox = document.getElementById("newName" + Id)
     renameTextBox.classList.toggle("hide")
-    let okBtn =document.getElementById("okBtn"+Id)
+    let okBtn = document.getElementById("okBtn" + Id)
     okBtn.classList.toggle("hide")
 }
-function handleRenamePlayList(id){
-    let newName=document.getElementById("newName"+id).value
-    renamePlayList(id,newName)
+function handleRenamePlayList(id) {
+    let newName = document.getElementById("newName" + id).value
+    renamePlayList(id, newName)
     generatePlaylists()
 }
-
 
 function handleSongEvent(event) {
     const target = event.target.parentElement
@@ -416,8 +420,22 @@ function playlistDuration(id) {
     }
     return sum
 }
+function comparepl(a, b) {
+    //defining how .SORT function works- for alpha-betic sorting.
+    //-->FOR PLAYLIST
 
-function compare(a, b) {
+    let fa = a.name.toLowerCase(),
+        fb = b.name.toLowerCase()
+    if (fa < fb) {
+        return -1
+    }
+    if (fa > fb) {
+        return 1
+    }
+    return 0
+}
+
+function compares(a, b) {
     //defining how .SORT function works- for alpha-betic sorting.
     //-->FOR SONGS criterion ="title"
     //-->FOR PLAYLISTS criterion ="name"
@@ -440,105 +458,194 @@ function toggleAddSection() {
     addsection.classList.toggle("hide")
 }
 
-
 //add new playlist
 function isIdExsistInPlayLists(id) {
     //Parameters: PLAYLISTS ID
     //Returns: IS PLAYLIST ID EXSIST.
 
-   for (let i = 0; i < player.playlists.length; i++) {
-     if (player.playlists[i]['id'] === id) return true
-   }
-   return false
- }
-  
+    for (let i = 0; i < player.playlists.length; i++) {
+        if (player.playlists[i]["id"] === id) return true
+    }
+    return false
+}
+
 function createPlaylist(name, id = 0) {
-    //Parameters: NEW PLAYLIST'S NAME 
-    //--> ADDS NEW EMPTY PLAYLIST TO PLAYER 
+    //Parameters: NEW PLAYLIST'S NAME
+    //--> ADDS NEW EMPTY PLAYLIST TO PLAYER
     //Returns: NEW PLAYLIST ID.
 
     let newPlayList = { name, songs: [] }
     if (!playListById(id)) newPlayList.id = id
     else {
-      for (let i = 0; i < player.playlists.length + 1; i++) {
-        if (!isIdExsistInPlayLists(i)) {
-          newPlayList.id = i
+        for (let i = 0; i < player.playlists.length + 1; i++) {
+            if (!isIdExsistInPlayLists(i)) {
+                newPlayList.id = i
+            }
         }
-      }
-      
     }
     player.playlists.push(newPlayList)
     return newPlayList.id
-  }
+}
 
-  function albumPlaylist(album){
-    //gets: ALBUM NAME 
+function albumPlaylist(album) {
+    //gets: ALBUM NAME
     //--> CEATE A PLAYLIST FOR ALL THE SONGS FROM THAT ALBUM
     //returns: NEW PLAYLIST ID.
-  
-    playlistId=createPlaylist(album);
-    for(let i = 0; i < player.songs.length; i++){
-      if(player.songs[i].album===album)
-        {
-          addToPlayList(player.songs[i].id,playlistId)
+
+    playlistId = createPlaylist(album)
+    for (let i = 0; i < player.songs.length; i++) {
+        if (player.songs[i].album === album) {
+            addToPlayList(player.songs[i].id, playlistId)
         }
     }
-    return playlistId;
-  }
-  
- function artistPlaylist(artist){
-    //gets: ARTIST NAME 
+    return playlistId
+}
+
+function artistPlaylist(artist) {
+    //gets: ARTIST NAME
     //--> CEATE A PLAYLIST FOR ALL THE SONGS OF THAT ARTIST.
     //returns: NEW PLAYLIST ID.
-    
-    playlistId=createPlaylist(artist);
-    for(let i = 0; i < player.songs.length; i++){
-      if(player.songs[i].artist===artist)
-        {
-          addToPlayList(player.songs[i].id,playlistId)
+
+    playlistId = createPlaylist(artist)
+    for (let i = 0; i < player.songs.length; i++) {
+        if (player.songs[i].artist === artist) {
+            addToPlayList(player.songs[i].id, playlistId)
         }
     }
-    return playlistId;
-  }
-  function addToPlayList(songId, playlistId) {
-    //Parameters: SONG ID & PLAYLIST ID 
+    return playlistId
+}
+function addToPlayList(songId, playlistId) {
+    //Parameters: SONG ID & PLAYLIST ID
     //--> ADDS SONG TO PLAYLIST.
 
     let song = songById(songId)
     player.playlists[playListIndexById(playlistId)].songs.push(song.id)
-  }
-  
+}
 
-const addPlaylistBtn =document.getElementById("addPlaylistButton")
-addPlaylistBtn.addEventListener("click",handleAddPlaylistEvent)
+const addPlaylistBtn = document.getElementById("addPlaylistButton")
+addPlaylistBtn.addEventListener("click", handleAddPlaylistEvent)
 
-function handleAddPlaylistEvent(){
+function handleAddPlaylistEvent() {
     const name = document.getElementById("playlistName").value
     createPlaylist(name)
     generatePlaylists()
 }
 
-const addAutoPlaylistBtn =document.getElementById("addAutoPlaylistButton")
-addAutoPlaylistBtn.addEventListener("click",handleAddAutoPlaylistEvent)
+const addAutoPlaylistBtn = document.getElementById("addAutoPlaylistButton")
+addAutoPlaylistBtn.addEventListener("click", handleAddAutoPlaylistEvent)
 
-function handleAddAutoPlaylistEvent(){
+function handleAddAutoPlaylistEvent() {
     const name = document.getElementById("playlistBy").value
-    if(document.getElementById("criterion").value==="artist")artistPlaylist(name)
-    if(document.getElementById("criterion").value==="album")albumPlaylist(name)
+    if (document.getElementById("criterion").value === "artist") artistPlaylist(name)
+    if (document.getElementById("criterion").value === "album") albumPlaylist(name)
     generatePlaylists()
 }
 
-
-
-
-
-function renamePlayList(id,newName){
+function renamePlayList(id, newName) {
     //gets: PLAYLIST ID & NEW NAME
     //--> RENAME THE PLAYLIST
-  
-      playListById(id).name=newName;
+
+    playListById(id).name = newName
 }
- 
 
+let searchBtn = document.getElementById("searchBtn")
+searchBtn.addEventListener("click", handleSearchBtn)
 
-//janere
+function handleSearchBtn() {
+    const searchQuery = document.getElementById("searchBarInput").value
+    if (document.getElementById("searchBy").value === "query") generateResultes(searchByQuery(searchQuery))
+    if (document.getElementById("searchBy").value === "duration") generateResult(searchByDuration(searchQuery))
+}
+function generateResult(result) {
+    console.log(result)
+    removeAllChildNodes(document.getElementById("songs")) //remove all the songs and playlist that maybe there
+    removeAllChildNodes(document.getElementById("playlists"))
+    if (result.name) { //chaking if it a song or playlist
+        document.getElementById("playlists").appendChild(createAPlaylistElement(result))
+    }
+    else{
+        document.getElementById("songs").appendChild(createASongElement(result))
+    }
+}
+function generateResultes(results) {
+    removeAllChildNodes(document.getElementById("songs")) //remove all the songs and playlist that maybe there
+    removeAllChildNodes(document.getElementById("playlists"))
+    console.log(results)
+
+    for (let song of results.songs) {
+        //building songs elements
+        document.getElementById("songs").appendChild(createASongElement(song))
+    }
+
+    for (let playlist of results.playlists) {
+        //building playlist elements
+        document.getElementById("playlists").appendChild(createAPlaylistElement(playlist))
+    }
+}
+
+//SEARCHING
+
+/*
+      //Parameters: QUERY STRING ,
+  
+      Returns: OBJECT THAT HAVE:
+  
+      ALPHA-BETIC SORTED ARRAYS OF MATCHING:
+  
+      SONGS (titles,albums,artists) &  PLAYLIST (names).
+      */
+function searchByQuery(query) {
+    let lowerCasedQuery = query.toLowerCase()
+    let found = {}
+    let playlists = []
+    let songs = []
+    for (let i = 0; i < player.playlists.length; i++) {
+        //searching for matching playlists.
+        if (player.playlists[i].name.toLowerCase().includes(lowerCasedQuery)) {
+            playlists.push(player.playlists[i])
+        }
+    }
+    for (let i = 0; i < player.songs.length; i++) {
+        //searching for matching songs.
+        const song = player.songs[i]
+        if (
+            song.title.toLowerCase().includes(lowerCasedQuery) ||
+            song.album.toLowerCase().includes(lowerCasedQuery) ||
+            song.artist.toLowerCase().includes(lowerCasedQuery)
+        ) {
+            songs.push(song)
+        }
+    }
+    found.playlists = playlists.sort(comparepl) //adds sorted playlist array to returned object
+    found.songs = songs.sort(compares) //adds sorted songs array to returned object
+    return found
+}
+
+function searchByDuration(duration) {
+    //Parameters: DURATION ("mm:ss").
+    //Returns: CLOSEST PLAYLIST/SONG TO IT.
+
+    duration = mmssTOs(duration)
+    let closestPlayList = player.playlists[0]
+    let closestsong = player.songs[0]
+    for (let i = 0; i < player.playlists.length; i++) {//searching for closest playlists.
+      let a = playlistDuration(player.playlists[i].id)
+      let b = playlistDuration(closestPlayList.id)
+      if ((a - duration) ** 2 < (b - duration) ** 2) {//a and b named sorting clearing the equation- gettin the absulute destace.
+        closestPlayList = player.playlists[i]
+      }
+    }
+    for (let i = 0; i < player.songs.length; i++) {//searching for closest song.
+      let a = player.songs[i].duration
+      let b = closestsong.duration
+      if ((a - duration) ** 2 < (b - duration) ** 2) {//the same for a and b here
+        closestsong = player.songs[i]
+      }
+    }
+    let a = closestsong.duration 
+    let b = playlistDuration(closestPlayList.id)
+    if ((a - duration) ** 2 < (b - duration) ** 2) return closestsong//the same for a and b here
+    return closestPlayList
+  }
+  
+  

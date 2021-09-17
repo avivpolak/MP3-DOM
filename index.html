@@ -11,7 +11,15 @@
     </head>
     <body>
         <h1>AVIV'SPOTIFY</h1>
-
+        <div id="searchBar">
+            <select name="searchBy" id="searchBy">
+                <option value="query">query</option>
+                <option value="duration">duration</option>
+            </select>
+            <input id="searchBarInput" placeholder="search here..." />
+            <button id="reset" onclick="handleResetBtn">reset</button>
+            <button id="searchBtn" >bring me it already!!!!!!</button>
+        </div>
         <h1>songs</h1>
         <div id="autoPlaySection">
             <label>auto play:</label>
