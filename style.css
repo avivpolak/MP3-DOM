@@ -1,42 +1,77 @@
 /* Your code here */
-div{    
-    background: linear-gradient(45deg, rgb(255, 255, 255), transparent),rgb(177, 177, 177);
-    border-radius: 40px 40px 20px 20px ;
+div {
+
+    border-radius: 40px 40px 20px 20px;
     margin-top: 20px;
     margin-left: 4px;
     margin-right: 4px;
     text-align: center;
     float: right;
-    font-size: 13px;
-    font-family: 'Barlow Semi Condensed', sans-serif;}
+    font-family: "Barlow Semi Condensed", sans-serif;
+}
 
-.bold{
+#songs > div{
+    background:  rgb(172, 172, 172);
+    border-radius: 40px 40px 20px 20px;
+    margin-top: 20px;
+    margin-left: 4px;
+    margin-right: 4px;
+    text-align: center;
+    width:70%;
+    font-family: "Barlow Semi Condensed", sans-serif;
+    padding: 20px;
+
+
+}
+#songs > div> p{
+   float: left;
+   margin: 10px;
+}
+#songs > div> button{
+    float: right;
+    font-size: 30px;
+
+}
+.duration{
+    float: right;
+
+}
+#songs > div> img{
+    width: 100px;
+    float: left;
+}
+
+body{
+    font-size: xx-large;
+}
+
+.bold {
     font-weight: bold;
 }
 
-img{
+img {
     width: 15%;
-    height:15%;
+    height: 15%;
 }
-#playlists > div{
-    background:rgb(132, 144, 255);
-    border-radius: 40px 40px 20px 20px ;
+#playlists > div {
+    background: rgb(132, 144, 255);
+    border-radius: 40px 40px 20px 20px;
     margin-top: 20px;
     margin-left: 4px;
     margin-right: 4px;
     margin-bottom: 40px;
     width: 500px;
-    height:500x;
+    height: 500x;
     text-align: center;
     float: right;
     font-size: 13px;
-    font-family: 'Barlow Semi Condensed', sans-serif;}
-h1{
+    font-family: "Barlow Semi Condensed", sans-serif;
+}
+h1 {
     text-align: center;
 }
-body{
-    background:rgb(48, 65, 224);
-}
-.playing{
-    background:rgb(180, 178, 17);
+
+ .playing {
+    background: rgb(39, 39, 39)  !important;
+    box-shadow: 2px 2px 4px #000000;
 }

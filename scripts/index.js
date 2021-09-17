@@ -101,23 +101,6 @@ function sTOmmss(s) {
     return mmss
 }
 
-function colorDuration(duration) {
-    let red = 0
-    let greeg = 0
-    let scale = (duration - 120) / 300
-    if (scale >= 0 && scale <= 1) {
-        red = scale * 255
-        green = (1 - scale) * 255
-    } else if (scale < 0) {
-        red = 0
-        green = 255
-    } else if (scale > 0) {
-        red = 255
-        green = 0
-    }
-
-    return `rgb(${red},${green},0)`
-}
 
 function playlistDuration(id) {
     //Parameters: PLAYLIST ID

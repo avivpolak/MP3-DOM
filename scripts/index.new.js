@@ -16,7 +16,7 @@ function setZero(Id) {
     //sets all the childrens backgrounds to ""
     let child = document.getElementById(Id).firstElementChild
     for (child.firstElementChild; child; child = child.nextElementSibling) {
-        child.style.backgroundColor = ""
+        child.classList.remove("playing")
     }
 }
 
@@ -171,18 +171,42 @@ function createElement(tagname, children = [], classes = [], attributes, events)
     return el
 }
 
+//get color from duration
+function colorDuration(duration) {
+    let red = 0
+    let greeg = 0
+    let scale = (duration - 120) / 300
+    if (scale >= 0 && scale <= 1) {
+        red = scale * 255
+        green = (1 - scale) * 255
+    } else if (scale < 0) {
+        red = 0
+        green = 255
+    } else if (scale > 0) {
+        red = 255
+        green = 0
+    }
+
+    return `rgb(${red},${green},0)`
+}
+
+
+
+
+
 //CREATE A SONG ELEMENT
 
 function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let artistEl = createElement("p", [artist])
-    let durationEl = createElement("p", ["duration: " + sTOmmss(duration)], [], {
-        style: `background-color:${colorDuration(duration)};`,
+    let durationEl = createElement("div", [sTOmmss(duration)], ["duration"], {
+        style: `color:${colorDuration(duration)};`,
     })
     let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
     let albumEl = createElement("p", [album])
     let titleEl = createElement("p", [title], ["bold"])
-    let playBtn = createElement("button", ["play"], [], [])
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, playBtn], ["song"], {id: id})
+    let playBtn = createElement("button", ["▶"], [], {name:"play"})
+    let XBtn = createElement("button", ["❌"], [], {name:"erase"})
+    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, XBtn,playBtn], ["song"], {id: id})
 }
 
 //CREATING PLAYLIST  ELEMENT
@@ -235,6 +259,11 @@ document.getElementById("add-button").addEventListener("click", handleAddSongEve
 //making the play button actually work
 document.getElementById("songs").addEventListener("click",handlePlaySongEvent)
 
+
+function handlePlaySongEvent(event){
+    const target = event.target.parentElement;
+    if (event.target.value ==="")playSong(target.id)//activate play funcion only if the BUTTON is clicked
+}
 
 function handlePlaySongEvent(event){
     const target = event.target.parentElement;
