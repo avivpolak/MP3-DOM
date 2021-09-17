@@ -68,17 +68,6 @@ const player = {
     playlists: [
         { id: 1, name: "Metal", songs: [1, 7, 4, 6] },
         { id: 5, name: "Israeli", songs: [4, 5] },
-        { id: 2, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 3, name: "Israeli", songs: [4, 5] },
-        { id: 4, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 6, name: "Israeli", songs: [4, 5] },
-        { id: 7, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 8, name: "Israeli", songs: [4, 5] },
-        { id: 9, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 10, name: "Israeli", songs: [4, 5] },
-        { id: 11, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 52, name: "Israeli", songs: [4, 5] },
-        { id: 12, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 53, name: "Israeli", songs: [4, 5] }
+
     ],
 }

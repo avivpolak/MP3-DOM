@@ -215,17 +215,19 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
     return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, removeBtn, playBtn], ["song"], {
         id: id,
-    })
+    },)
 }
 
 //CREATING PLAYLIST  ELEMENT
 function createAPlaylistElement({ id, name, songs }) {
     let nameEl = createElement("p", [name])
-    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))],["duration"])
+    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))], ["duration"])
     let numOfSongsEl = createElement("p", [songs.length + " songs."])
     let playBtn = createElement("button", ["▶"], [], { name: "play" })
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
-    return createElement("div", [nameEl, numOfSongsEl, durationEl, playBtn, removeBtn], ["playlist"], { id: "pl" + id })
+    return createElement("div", [nameEl, numOfSongsEl, durationEl, playBtn, removeBtn], ["playlist"], {
+        id: "pl" + id,
+    })
 }
 
 /**
@@ -416,11 +418,51 @@ function compare(a, b) {
     return 0
 }
 
-
-
-const addSectionBtn = document.getElementById("show-add-section") 
-addSectionBtn.addEventListener("click",toggleAddSection)
-function toggleAddSection(){
-   let addsection = document.getElementById("add-section")
-   addsection.classList.toggle("hide")
+const addSectionBtn = document.getElementById("showAddSection")
+addSectionBtn.addEventListener("click", toggleAddSection)
+function toggleAddSection() {
+    let addsection = document.getElementById("add-section")
+    addsection.classList.toggle("hide")
 }
+
+
+//add new playlist
+function isIdExsistInPlayLists(id) {
+    //Parameters: PLAYLISTS ID
+    //Returns: IS PLAYLIST ID EXSIST.
+
+   for (let i = 0; i < player.playlists.length; i++) {
+     if (player.playlists[i]['id'] === id) return true
+   }
+   return false
+ }
+  
+function createPlaylist(name, id = 0) {
+    //Parameters: NEW PLAYLIST'S NAME 
+    //--> ADDS NEW EMPTY PLAYLIST TO PLAYER 
+    //Returns: NEW PLAYLIST ID.
+
+    let newPlayList = { name, songs: [] }
+    if (!playListById(id)) newPlayList.id = id
+    else {
+      for (let i = 0; i < player.playlists.length + 1; i++) {
+        if (!isIdExsistInPlayLists(i)) {
+          newPlayList.id = i
+        }
+      }
+      
+    }
+    player.playlists.push(newPlayList)
+    return newPlayList.id
+  }
+  
+
+const addPlaylistBtn =document.getElementById("addPlaylistButton")
+addPlaylistBtn.addEventListener("click",handleAddPlaylistEvent)
+
+function handleAddPlaylistEvent(){
+    const name = document.getElementById("playlistName").value
+    createPlaylist(name)
+    generatePlaylists()
+}
+//janere
