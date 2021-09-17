@@ -205,8 +205,8 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let albumEl = createElement("p", [album])
     let titleEl = createElement("p", [title], ["bold"])
     let playBtn = createElement("button", ["▶"], [], {name:"play"})
-    let XBtn = createElement("button", ["❌"], [], {name:"erase"})
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, XBtn,playBtn], ["song"], {id: id})
+    let removeBtn = createElement("button", ["❌"], [], {name:"remove"})
+    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, removeBtn,playBtn], ["song"], {id: id})
 }
 
 //CREATING PLAYLIST  ELEMENT
@@ -257,15 +257,57 @@ generatePlaylists()
 document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
 
 //making the play button actually work
-document.getElementById("songs").addEventListener("click",handlePlaySongEvent)
+document.getElementById("songs").addEventListener("click",handleSongEvent)
 
-
-function handlePlaySongEvent(event){
-    const target = event.target.parentElement;
-    if (event.target.value ==="")playSong(target.id)//activate play funcion only if the BUTTON is clicked
+function handleRemoveSong(songId){
+    if(confirm("are you sure?")){
+    removeSong(songId)
+    generateSongs()
+}
 }
 
-function handlePlaySongEvent(event){
+function handleSongEvent(event){
     const target = event.target.parentElement;
-    if (event.target.tagName ==="BUTTON")playSong(target.id)//activate play funcion only if the BUTTON is clicked
+    if (event.target.name ==="play")playSong(target.id)//activate play funcion only if the BUTTON is clicked
+    if (event.target.name ==="remove")handleRemoveSong(target.id)
 }
+
+
+
+function removeSong(id) {
+    //Parameters: SONG ID 
+    //--> REMOVING THE SONG, FROM PLAYER & PLAYLIST (activatie remove-from-playilist function).
+
+    if (songIndexById(id) === -1) {
+      throw new Error('non-existent ID')
+    }
+    console.log(songIndexById(id))
+    player.songs.splice(songIndexById(id), 1)
+    removeFromPlayLists(id)
+  }
+
+
+
+  function removeFromPlayLists(songId) {
+    //Parameters: SONG ID 
+    //--> REMOVES IT FROM *ALL* PLAYLISTS.
+
+    for (let i = 0; i < player.playlists.length; i++) {
+      for (let j = 0; j < player.playlists[i].songs.length; j++) {
+        if (player.playlists[i].songs[j] === songId) {
+          player.playlists[i].songs.splice(j, 1)
+        }
+      }
+    }
+  }
+  
+
+  
+function songIndexById(id) {
+    //Parameters: SONG ID
+    //Returns: SONG INDEX.
+    for (let i=0; i<player.songs.length;i++) {
+      if (player.songs[i]['id'] ===parseInt(id)) return parseInt(i)
+    }
+    return -1
+  }
