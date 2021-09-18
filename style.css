@@ -36,6 +36,7 @@
     text-align: center;
 }
 select{
+    float: right;
     font-size: xx-large;
 }
 div {
