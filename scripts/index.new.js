@@ -24,6 +24,8 @@ document.getElementById("addPlaylistButton").addEventListener("click", handleAdd
 document.getElementById("addAutoPlaylistButton").addEventListener("click", handleAddAutoPlaylistEvent)
 document.getElementById("searchBtn").addEventListener("click", handleSearchBtn)
 document.getElementById("reset").addEventListener("click", handleResetBtn)
+document.getElementById("showPlaylistSection").addEventListener("click", toggleAddPlaylistSection)
+
 
 // Creating the page structure
 reset()
@@ -406,6 +408,19 @@ function mmssTOs(mmss) {
 
     return parseInt(mmss.slice(0, 2)) * 60 + parseInt(mmss.slice(3, 5))
 }
+
+function sTOmmss(s) {
+    //gets: SECONDS , returns: "MINUTES:SECONDS".
+    const mm = Math.floor(s / 60)
+    const ss = s % 60
+    let mmss = ""
+    if (mm > 9 && ss > 9) mmss = `${mm}:${ss}`
+    if (mm > 9 && ss <= 9) mmss = `${mm}:0${ss}`
+    if (mm <= 9 && ss > 9) mmss = `0${mm}:${ss}`
+    if (mm <= 9 && ss <= 9) mmss = `0${mm}:0${ss}`
+    return mmss
+}
+
 //get color from duration
 function colorDuration(duration) {
     let red = 0
@@ -471,6 +486,12 @@ function toggleAddSection() {
     let addsection = document.getElementById("add-section")
     addsection.classList.toggle("hide")
 }
+function toggleAddPlaylistSection() {
+    console.log("hi")
+    let addPlaylistsection = document.getElementById("addPlaylistSection")
+    addPlaylistsection.classList.toggle("hide")
+}
+
 
 //CREATING ELEMENTS
 

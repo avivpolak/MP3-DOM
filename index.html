@@ -6,63 +6,80 @@
         <link rel="shortcut icon" type="image/x-icon" href="./images/icon.png" />
         <link rel="stylesheet" href="./style.css" />
         <script src="./scripts/player.js"></script>
-        <script src="./scripts/index.js" defer></script>
         <script src="./scripts/index.new.js" defer></script>
     </head>
     <body>
-        <h1>AVIV'SPOTIFY</h1>
-        <div id="searchBar">
-            <select name="searchBy" id="searchBy">
-                <option value="query">query</option>
-                <option value="duration">duration</option>
-            </select>
-            <label for="searchBarInput">search here!</label>
-            <input id="searchBarInput" placeholder="query word /mm:ss..." />
-            <button id="reset" >reset</button>
-            <button id="searchBtn" >bring me it already!!!!!!</button>
-        </div>
-        <h1>songs</h1>
-        <div id="autoPlaySection">
-            <label>auto play:</label>
-            <label>off</label>
-            <label class="switch">
-                <input id="autoPlay" type="checkbox" />
-                <span class="slider round"></span>
-            </label>
-            <label>on</label>
-        </div>
-        <button id="showAddSection">Add a new song</button>
+        <div class="all">
+            <h1>AVIV'SPOTIFY</h1>
+            <div class="playlistSide" id="searchBar">
+                <label for="searchBarInput">search here!</label>
+                <input id="searchBarInput" placeholder="query word /mm:ss..." />
+                <select name="searchBy" id="searchBy">
+                    <option value="query">query</option>
+                    <option value="duration">duration</option>
+                </select>
 
-        <div id="add-section" class="hide">
-            <h2>Add a new song</h2>
-            <div id="inputs">
-                <input id="title" placeholder="Title" />
-                <input id="album" placeholder="Album" />
-                <input id="artist" placeholder="Artist" />
-                <input id="duration" placeholder="Duration (mm:ss)" />
-                <input id="cover-art" placeholder="Cover art link" />
+                <button id="searchBtn">bring me it already!!!!!!</button>
+                <button id="reset">reset</button>
             </div>
-            <button id="add-button">Add</button>
         </div>
-        <div id="songs">
-            <h1>songs</h1>
+
+        <div class="all">
+            <h2 class="songSide">songs</h2>
+            <h2 class="playlistSide">playlists</h2>
+        </div>
+
+        <div class="all">
+            <div class="songSide">
+                <button id="showAddSection">➕</button>
+                <div class="left" id="autoPlaySection">
+                    <label>auto play:</label>
+                    <label>off</label>
+                    <label class="switch">
+                        <input id="autoPlay" type="checkbox" />
+                        <span class="slider round"></span>
+                    </label>
+                    <label>on</label>
+                </div>
+            </div>
+
+            <button id="showPlaylistSection">➕</button>
+        </div>
+
+        <div class="songSide">
+            <div class="hide" id="add-section">
+                <h2>Add a new song</h2>
+                <div id="inputs">
+                    <input id="title" placeholder="Title" />
+                    <input id="album" placeholder="Album" />
+                    <input id="artist" placeholder="Artist" />
+                    <input id="duration" placeholder="Duration (mm:ss)" />
+                    <input id="cover-art" placeholder="Cover art link" />
+                </div>
+                <button id="add-button">Add</button>
+            </div>
+        </div>
+
+        <div class="songSide" id="songs">
             <!-- Generated songs go here -->
         </div>
-        <h1>playlists</h1>
-        <div id="addPlaylist">
-            <h2>Add playlist</h2>
-            <input id="playlistName" type="text" placeholder="new playlist's name" />
-            <button id="addPlaylistButton">Add playlist</button>
-            <h2>create an auto playlist:</h2>
 
-            <select name="criterion" id="criterion">
-                <option value="artist">artist</option>
-                <option value="album">album</option>
-            </select>
-            <input id="playlistBy" type="text" placeholder="a playlist By..." />
-            <button id="addAutoPlaylistButton">Add auto playlist</button>
+        <div class="playlistSide" id="addPlaylist">
+            <div id="addPlaylistSection" class="hide">
+                <h2>Add playlist</h2>
+                <input id="playlistName" type="text" placeholder="new playlist's name" />
+                <button id="addPlaylistButton">Add playlist</button>
+                <h2>create an auto playlist:</h2>
+                <select name="criterion" id="criterion">
+                    <option value="artist">artist</option>
+                    <option value="album">album</option>
+                </select>
+                <input id="playlistBy" type="text" placeholder="a playlist By..." />
+                <button id="addAutoPlaylistButton">Add auto playlist</button>
+            </div>
         </div>
-        <div id="playlists">
+
+        <div class="playlistSide" id="playlists">
             <!-- Generated playlists go here -->
         </div>
     </body>

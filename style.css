@@ -1,40 +1,19 @@
-/* Your code here */
-#songs{
-    float: left;
-    width: 70%;
-}
-#playlists{
-    float: right;
-    width: 30%;}
 
-#add-section{
-    float: left;
-    width: 70%;
+.all{
+    width:100%
 }
-#autoPlay{
+.songSide{
     float: left;
-    width: 70%; 
+    width:68.5%
 }
-#addPlaylist{
+.playlistSide{
     float: right;
-    width: 30%;
-    text-align: right;
+    width:28.5%
 }
-#autoPlaySection{
+.left{
     float: left;
-    width: 70%; 
-    text-align: left;
 }
-#searchBar{
-    float: right;
-    width: 30%;
-    text-align: right;
-}
-#showAddSection{
-    float: left;
-    width: 70%; 
-    text-align: center;
-}
+
 select{
     float: right;
     font-size: xx-large;
@@ -55,7 +34,7 @@ div {
     margin-left: 4px;
     margin-right: 4px;
     text-align: center;
-    width:90%;
+    width:100%;
     font-family: "Barlow Semi Condensed", sans-serif;
     padding: 20px;
 
@@ -71,7 +50,7 @@ input , button{
     margin-left: 4px;
     margin-right: 4px;
     text-align: center;
-    width:90%;
+    width:100%;
     font-family: "Barlow Semi Condensed", sans-serif;
     padding: 20px;
     float: left;
@@ -81,10 +60,8 @@ div> p{
    float: left;
    margin: 10px;
 }
-div> button{
-    float: right;
-    font-size: 30px;
-
+button{
+    float:right
 }
 .duration{
     float: right;
