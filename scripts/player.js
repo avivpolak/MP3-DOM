@@ -62,11 +62,21 @@ const player = {
             duration: 811,
             coverArt: "./images/cover_art/wintersun_sons_of_winter_and_stars.jpg",
             audio:"./audio/SonsofWinterandStars.mp3"
-        },        
+        },   
+        {
+            id: 8,
+            title: "יולנדה",
+            album: "ארמדילוס-המיטב",
+            artist: "ארמדילוס",
+            duration: 137,
+            coverArt: "./images/cover_art/armadilos.png",
+            audio:"./audio/SonsofWinterandStars.mp3"
+        }     
 
     ],
     playlists: [
         { id: 1, name: "Metal", songs: [1, 7, 4, 6] },
-        { id: 5, name: "Israeli", songs: [4, 5] },
+        { id: 5, name: "Israeli", songs: [4, 5,8] },
+
     ],
 }

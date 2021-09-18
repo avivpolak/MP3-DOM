@@ -4,16 +4,85 @@
         <meta charset="UTF-8" />
         <title>aviv'Spotify</title>
         <link rel="shortcut icon" type="image/x-icon" href="./images/icon.png" />
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
         <script src="./scripts/player.js"></script>
-        <script src="./scripts/index.js" defer></script>
+        <script src="./scripts/index.new.js" defer></script>
+        <script src="./scripts/songsFunctions.js"></script>
     </head>
     <body>
-        <h1>AVIV'SPOTIFY</h1>
-        <div id="songs"><h1>songs</h1>
+        <div class="all">
+            <h1>AVIV'SPOTIFY</h1>
+            <div class="playlistSide" id="searchBar">
+                <label for="searchBarInput">search here:</label>
+                <input id="searchBarInput" placeholder="query word /mm:ss..." />
+                <button id="searchBtn">🔎</button>
+                <select name="searchBy" id="searchBy">
+                    <option value="query">query</option>
+                    <option value="duration">duration</option>
+                </select>
+
+                
+                <button id="reset">reset</button>
+            </div>
+        </div>
+
+        <div class="all">
+            <h2 class="songSide">songs</h2>
+            <h2 class="playlistSide">playlists</h2>
+        </div>
+
+        <div class="all">
+            <div class="songSide">
+                <button id="showAddSection">➕</button>
+                <div class="left" id="autoPlaySection">
+                    <label>auto play:</label>
+                    <label class="switch">
+                        <input id="autoPlay" type="checkbox" />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+            <button id="showPlaylistSection">➕</button>
+        </div>
+
+        <div class="all">
+            <div class="hide" id="add-section">
+                <h2>Add a new song</h2>
+                <div id="inputs">
+                    <input id="title" placeholder="Title" />
+                    <input id="album" placeholder="Album" />
+                    <input id="artist" placeholder="Artist" />
+                    <input id="duration" placeholder="Duration (mm:ss)" />
+                    <input id="cover-art" placeholder="Cover art link" />
+                </div>
+                <button id="add-button">Add</button>
+            </div>
+        </div>
+
+        <div class="songSide" id="songs">
             <!-- Generated songs go here -->
         </div>
-        <div id="playlists"><h1>playlists</h1>
+
+        <div class="playlistSide" id="addPlaylist">
+            <div id="addPlaylistSection" class="hide">
+                <h2>Add playlist</h2>
+                <input id="playlistName" type="text" placeholder="new playlist's name" />
+                <button id="addPlaylistButton">Add playlist</button>
+                <h2>create an auto playlist:</h2>
+                <select name="criterion" id="criterion">
+                    <option value="artist">artist</option>
+                    <option value="album">album</option>
+                </select>
+                <input id="playlistBy" type="text" placeholder="a playlist By..." />
+                <button id="addAutoPlaylistButton">Add auto playlist</button>
+            </div>
+        </div>
+
+        <div class="playlistSide" id="playlists">
             <!-- Generated playlists go here -->
         </div>
     </body>
