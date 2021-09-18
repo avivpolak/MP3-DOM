@@ -1,6 +1,7 @@
 
 .all{
     width:100%
+    
 }
 .songSide{
     float: left;
@@ -22,36 +23,34 @@ div {
     border-radius: 40px 40px 20px 20px;
 
     text-align: center;
-    font-family: "Barlow Semi Condensed", sans-serif;
     display: inline-block;
     font-size: xx-large;
 }
 
 #songs > div{
-    background:  rgb(172, 172, 172);
+    background:  rgb(0, 140, 255);
     border-radius: 40px 40px 20px 20px;
     margin-top: 20px;
     margin-left: 4px;
     margin-right: 4px;
     text-align: center;
     width:100%;
-    font-family: "Barlow Semi Condensed", sans-serif;
     padding: 20px;
 
 
 }
 input , button{
     font-size: xx-large;
+    
 }
 #playlists > div{
-    background:  rgb(172, 172, 172);
+    background:  rgb(175, 255, 84);
     border-radius: 40px 40px 20px 20px;
     margin-top: 20px;
     margin-left: 4px;
-    margin-right: 4px;
+    margin-right: 40px;
     text-align: center;
-    width:100%;
-    font-family: "Barlow Semi Condensed", sans-serif;
+    width:90%;
     padding: 20px;
     float: left;
 
@@ -74,7 +73,8 @@ button{
 
 body{
     font-size: xx-large;
-    background-color: rgb(255, 236, 182);
+    background-color: rgb(146, 255, 195);
+    font-family: 'Roboto', sans-serif;
 }
 
 .bold {
@@ -86,12 +86,9 @@ img {
     height: 15%;
 }
 
-h1 {
-    text-align: center;
-}
 
  .playing {
-    background: rgb(119, 110, 110)  !important;
+    background: rgb(255, 62, 62)  !important;
     box-shadow: 10px 10px 4px #000000;
 }
 

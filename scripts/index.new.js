@@ -583,7 +583,7 @@ function createAPlaylistElement({ id, name, songs }) {
     let renameBtn = createElement("button", ["rename"], [], { name: "PlaylistName" })
     return createElement(
         "div",
-        [nameEl, newNameInput, okBtn, numOfSongsEl, durationEl, playBtn, removeBtn, renameBtn],
+        [nameEl, newNameInput,  numOfSongsEl, durationEl,okBtn, playBtn, removeBtn, renameBtn],
         ["playlist"],
         {
             id: "pl" + id,
