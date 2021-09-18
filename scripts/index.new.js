@@ -1,19 +1,3 @@
-/**
- * Acts on a click event on an element inside the songs list.
- * Should handle clicks on play buttons and remove buttons of songs.
- *
- * @param {MouseEvent} event - the click event
- */
-function handleSongClickEvent(event) {
-    // Your code here
-}
-
-/**
- * Handles a click event on the button that adds songs.
- *
- * @param {MouseEvent} event - the click event
- */
-
 // Making the buttons actually do something
 document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
 document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
@@ -26,13 +10,14 @@ document.getElementById("searchBtn").addEventListener("click", handleSearchBtn)
 document.getElementById("reset").addEventListener("click", handleResetBtn)
 document.getElementById("showPlaylistSection").addEventListener("click", toggleAddPlaylistSection)
 
-
 // Creating the page structure
 reset()
 
 //HANDLE PLAYLIST EVENTS
 
 function handlePlayListEvent(event) {
+    //MANAGE THE PRESSING ON A PLAYLIST ELEMENT.
+
     const targetid = event.target.parentElement.id
     let cleanId = targetid.slice(2, targetid.length)
     if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the BUTTON is clicked
@@ -42,6 +27,8 @@ function handlePlayListEvent(event) {
 }
 
 function handleRemoveplaylist(playlistId) {
+    //HANDLE REMOVE PLAYLIST WHEN THE "X" BUTTON IS PRESSED.
+
     if (confirm("are you sure?")) {
         removePlaylist(playlistId)
         reset()
@@ -49,19 +36,23 @@ function handleRemoveplaylist(playlistId) {
 }
 
 function showRenameBar(Id) {
-    let renameTextBox = document.getElementById("newName" + Id)
-    renameTextBox.classList.toggle("hide")
-    let okBtn = document.getElementById("okBtn" + Id)
-    okBtn.classList.toggle("hide")
+    //HIDING/SHOWING THE RENAME PLAYLIST SECTION WHEN THE "RENAME" BUTTUN IS PRESSED.
+
+    document.getElementById("newName" + Id).classList.toggle("hide")
+    document.getElementById("okBtn" + Id).okBtn.classList.toggle("hide")
 }
 
 function handleRenamePlayList(id) {
-    let newName = document.getElementById("newName" + id).value
+    //APLYING THE RENAMING FOR THE PLAYLIST WHEN THE "✔" IS PRESSED.
+
+    const newName = document.getElementById("newName" + id).value
     renamePlayList(id, newName)
     reset()
 }
 
 function handleAddPlaylistEvent() {
+    //APLYING ADD PLAYLIST WHEN THE "ADD" BUTTON IS PRESSED.
+
     const name = document.getElementById("playlistName").value
     createPlaylist(name)
     reset()
@@ -70,6 +61,8 @@ function handleAddPlaylistEvent() {
 //HANDLE SONG EVENTS
 
 function handleSongEvent(event) {
+    //MANAGE THE PRESSING ON A SONG ELEMENT.
+
     const target = event.target.parentElement
     if (event.target.name === "play") playSong(target.id) //activate play funcion only if the play BUTTON is clicked
     if (event.target.name === "remove") handleRemoveSong(target.id)
@@ -78,12 +71,17 @@ function handleSongEvent(event) {
 }
 
 function handleRemoveSong(songId) {
+    //HANDLE REMOVE SONG WHEN THE "X" BUTTON IS PRESSED.
+
     if (confirm("are you sure?")) {
         removeSong(songId)
         reset()
     }
 }
-function handleAddSongEvent(event) {
+
+function handleAddSongEvent() {
+    //APLYING ADD SONG WHEN THE "ADD" BUTTON IS PRESSED.
+
     let newsong = {}
     newsong.title = document.getElementById("title").value
     newsong.album = document.getElementById("album").value
@@ -95,28 +93,22 @@ function handleAddSongEvent(event) {
 }
 
 function handleAddToPlaylist(id) {
-    const playlistName = document.getElementById("selectPlaylist" + id).value
-    const playlistId = playlistIdByName(playlistName)
-    addToPlayList(parseInt(id), playlistId)
-    let selectPlaylist = document.getElementById("selectPlaylist" + id)
-    selectPlaylist.classList.toggle("hide")
-    let okBtn = document.getElementById("okBtnChosePlaylist" + id)
-    okBtn.classList.toggle("hide")
-    let showAddToPlaylist = document.getElementById("addToPlaylist" + id)
-    showAddToPlaylist.classList.toggle("hide")
+    //APLYING ADDING THE SONG TO THE PLAYLIST THAT NOW IN THE SELECT ELEMENT.
+
+    addToPlayList(parseInt(id), playlistIdByName(document.getElementById("selectPlaylist" + id).value))
+    showAddToPlaylist(id)
     generatePlaylists()
 }
 
 function showAddToPlaylist(id) {
-    let selectPlaylist = document.getElementById("selectPlaylist" + id)
-    selectPlaylist.classList.toggle("hide")
-    let okBtn = document.getElementById("okBtnChosePlaylist" + id)
-    okBtn.classList.toggle("hide")
-    let showAddToPlaylist = document.getElementById("addToPlaylist" + id)
-    showAddToPlaylist.classList.toggle("hide")
-}
+    //HIDING/SHOWING THE ADD PLAYLIST SECTION WHEN THE "+" BUTTUN IS PRESSED
 
+    document.getElementById("selectPlaylist" + id).classList.toggle("hide")
+    document.getElementById("okBtnChosePlaylist" + id).classList.toggle("hide")
+}
 function handleAddAutoPlaylistEvent() {
+    //APLYING AUTO PLAYLIST CREATION WHEN "ADD AUTO PLAILIST" IS PRESSED.
+
     const name = document.getElementById("playlistBy").value
     if (document.getElementById("criterion").value === "artist") artistPlaylist(name)
     if (document.getElementById("criterion").value === "album") albumPlaylist(name)
@@ -125,10 +117,14 @@ function handleAddAutoPlaylistEvent() {
 //HANDLE OTHER EVENTS
 
 function handleResetBtn() {
+    //APLYING RESET WHEN THE RESET BUTTON IS PRESSED.
+
     reset()
 }
 
 function handleSearchBtn() {
+    //APLYING THE SEARCH ACORDING TO THE STATE OF THE "SEARCH BY" SELECT ELEMENT.
+
     const searchQuery = document.getElementById("searchBarInput").value
     if (document.getElementById("searchBy").value === "query") generateResultes(searchByQuery(searchQuery))
     if (document.getElementById("searchBy").value === "duration") generateResult(searchByDuration(searchQuery))
@@ -137,6 +133,9 @@ function handleSearchBtn() {
 //PLAYLIST FUNCTIONS
 
 async function playSongInPlaylist(songId) {
+    //Parameters: SONG ID
+    //--> PLAYS THAT SONG IN PLAYLIST.
+
     setZero("songs")
     playingNow = document.getElementById(songId)
     playingNow.classList.add("playing")
@@ -163,9 +162,10 @@ async function playPlaylist(id) {
     playlistElement.classList.remove("playing") //for css to stop show the playing playlist
 }
 
-//gets name, return the playlists id
-
 function playlistIdByName(name) {
+    //Parameters: PLAYLIST NAME
+    //Returns: PLAYLIST ID
+
     for (let playlist of player.playlists) {
         if (playlist.name === name) return playlist.id
     }
@@ -313,11 +313,6 @@ function songById(id) {
     return undefined
 }
 
-/**
- * Removes a song from the player, and updates the DOM to match.
- *
- * @param {Number} songId - the ID of the song to remove
- */
 function removeSong(id) {
     //Parameters: SONG ID
     //--> REMOVING THE SONG, FROM PLAYER & PLAYLIST (activatie remove-from-playilist function).
@@ -329,9 +324,6 @@ function removeSong(id) {
     removeFromPlayLists(id)
 }
 
-/**
- * Adds a song to the player, and updates the DOM to match.
- */
 function addSong({ title, album, artist, duration, coverArt, id = 0 }) {
     //Parameters: NEW SONG CHARACTERIZATION
     //--> ADDS IN TO PLAYER
@@ -345,7 +337,6 @@ function addSong({ title, album, artist, duration, coverArt, id = 0 }) {
                 newSong.id = i
             }
         }
-        // throw new Error(`existent ID,the chosen id is ${newSong.id}`)
     }
     player.songs.push(newSong)
 }
@@ -380,14 +371,10 @@ function removeSong(id) {
     removeFromPlayLists(id)
 }
 
-/**
- * Plays a song from the player.
- * Playing a song means changing the visual indication of the currently playing song.
- *
- * @param {Number} songId - the ID of the song to play
- */
-
 async function playSong(songId) {
+    //Parameters: songId
+    //playing that song (visualy)
+
     setZero("songs")
     setZero("playlists")
     playingNow = document.getElementById(songId)
@@ -410,7 +397,9 @@ function mmssTOs(mmss) {
 }
 
 function sTOmmss(s) {
-    //gets: SECONDS , returns: "MINUTES:SECONDS".
+    //gets: SECONDS
+    //returns: "MINUTES:SECONDS".
+
     const mm = Math.floor(s / 60)
     const ss = s % 60
     let mmss = ""
@@ -421,8 +410,9 @@ function sTOmmss(s) {
     return mmss
 }
 
-//get color from duration
 function colorDuration(duration) {
+    //get color from duration
+
     let red = 0
     let greeg = 0
     let scale = (duration - 120) / 300
@@ -440,14 +430,18 @@ function colorDuration(duration) {
     return `rgb(${red},${green},0)`
 }
 
-//removeing the exsisting chileds from element
 function removeAllChildNodes(parent) {
+    //removeing the exsisting chileds from element
+
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild)
     }
 }
 
 function sleep(ms) {
+    //GETS TIME TO STOP
+    //--> STOP FOR THE TIME.
+
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
@@ -483,20 +477,22 @@ function compares(a, b) {
 }
 
 function toggleAddSection() {
-    let addsection = document.getElementById("add-section")
-    addsection.classList.toggle("hide")
+    //SHOW/HIDE ADD SONG SECTION.
+
+    document.getElementById("add-section").classList.toggle("hide")
 }
 function toggleAddPlaylistSection() {
-    console.log("hi")
-    let addPlaylistsection = document.getElementById("addPlaylistSection")
-    addPlaylistsection.classList.toggle("hide")
-}
+    //SHOW/HIDE ADD PLAYLIST SECTION.
 
+    document.getElementById("addPlaylistSection").classList.toggle("hide")
+}
 
 //CREATING ELEMENTS
 
 function createElement(tagname, children = [], classes = [], attributes, events) {
-    //the most generic element builder.we will build all the elements here.
+    //the most generic element builder.
+    //we will build all the elements here.
+
     const el = document.createElement(tagname)
 
     //children
@@ -530,39 +526,23 @@ function createElement(tagname, children = [], classes = [], attributes, events)
 }
 
 //CREATE A SONG ELEMENT
-
 function createASongElement({ id, title, album, artist, duration, coverArt }) {
-    let artistEl = createElement("p", [artist])
-    let durationEl = createElement("div", [sTOmmss(duration)], ["duration"], {
-        style: `color:${colorDuration(duration)};`,
-    })
-    let coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
-    let albumEl = createElement("p", [album])
-    let titleEl = createElement("p", [title], ["bold"])
-    let playBtn = createElement("button", ["▶"], [], { name: "play" })
-    let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
-    let okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtnChosePlaylist" + id })
-    let selectPlaylist = createElement("select", generateArrayOfOptions(player.playlists, "name"), ["hide"], {
-        id: "selectPlaylist" + id,
-    })
-    let addToPlaylistBtn = createElement("button", ["add to playlist"], [], {
-        name: "addToPlaylist",
-        id: "addToPlaylist" + id,
-    })
+    //Parameters: SONG OBJ.
+    //Returns: SONG ELEMENT.
+
+    const artistEl = createElement("p", [artist])
+    const durationEl = createElement("div", [sTOmmss(duration)], ["duration"], { style: `color:${colorDuration(duration)};` })
+    const coverArtEl = createElement("img", [], ["album-art"], { src: coverArt })
+    const albumEl = createElement("p", [album])
+    const titleEl = createElement("p", [title], ["bold"])
+    const playBtn = createElement("button", ["▶"], [], { name: "play" })
+    const removeBtn = createElement("button", ["❌"], [], { name: "remove" })
+    const okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtnChosePlaylist" + id })
+    const selectPlaylist = createElement("select", generateArrayOfOptions(player.playlists, "name"), ["hide"], { id: "selectPlaylist" + id })
+    const addToPlaylistBtn = createElement("button", ["➕"], [], { name: "addToPlaylist", id: "addToPlaylist" + id })
     return createElement(
         "div",
-        [
-            coverArtEl,
-            titleEl,
-            albumEl,
-            artistEl,
-            durationEl,
-            selectPlaylist,
-            okBtn,
-            addToPlaylistBtn,
-            removeBtn,
-            playBtn,
-        ],
+        [coverArtEl, titleEl, albumEl, artistEl, durationEl, selectPlaylist, okBtn, addToPlaylistBtn, removeBtn, playBtn],
         ["song"],
         {
             id: id,
@@ -573,57 +553,54 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
 
 //CREATING PLAYLIST  ELEMENT
 function createAPlaylistElement({ id, name, songs }) {
-    let nameEl = createElement("p", [name], [])
-    let newNameInput = createElement("input", [], ["hide"], { type: "text", id: "newName" + id })
-    let okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtn" + id })
-    let durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))], ["duration"])
-    let numOfSongsEl = createElement("p", [songs.length + " songs."])
-    let playBtn = createElement("button", ["▶"], [], { name: "play" })
-    let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
-    let renameBtn = createElement("button", ["rename"], [], { name: "PlaylistName" })
-    return createElement(
-        "div",
-        [nameEl, newNameInput,  numOfSongsEl, durationEl,okBtn, playBtn, removeBtn, renameBtn],
-        ["playlist"],
-        {
-            id: "pl" + id,
-        }
-    )
+    //Parameters: PLAYLIST OBJ.
+    //Returns: PLAYLIST ELEMENT.
+
+    const nameEl = createElement("p", [name], [])
+    const newNameInput = createElement("input", [], ["hide"], { type: "text", id: "newName" + id })
+    const okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtn" + id })
+    const durationEl = createElement("p", ["duration: " + sTOmmss(playlistDuration(id))], ["duration"])
+    const numOfSongsEl = createElement("p", [songs.length + " songs."])
+    const playBtn = createElement("button", ["▶"], [], { name: "play" })
+    const removeBtn = createElement("button", ["❌"], [], { name: "remove" })
+    const renameBtn = createElement("button", ["rename"], [], { name: "PlaylistName" })
+    return createElement("div", [nameEl, newNameInput, numOfSongsEl, durationEl, okBtn, playBtn, removeBtn, renameBtn], ["playlist"], {
+        id: "pl" + id,
+    })
 }
 
 //GENERATING THE ELEMENTS
-
 function reset() {
+    //RESET THE SONGS AND PLAYLIST ELEMENTS
+
     generatePlaylists()
     generateSongs()
 }
 
-/**
- * Inserts all songs in the player as DOM elements into the songs list.
- */
 function generateSongs() {
+    //INSERTS ALL SONGS IN THE PLAYER AS DOM ELEMENTS INTO THE SONGS LIST.
+
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs that maybe there
-    document.getElementById("songs")
-    let sorted = player.songs.sort(compares)
-    for (let song of sorted) {
-        //building songs elements
+    for (let song of player.songs.sort(compares)) {//building songs elements
         document.getElementById("songs").appendChild(createASongElement(song))
     }
 }
 
-/**
- * Inserts all playlists in the player as DOM elements into the playlists list.
- */
+
 function generatePlaylists() {
+    //INSERTS ALL PLAYLISTS IN THE PLAYER AS DOM ELEMENTS INTO THE PLAYLISTS LIST.
+
     removeAllChildNodes(document.getElementById("playlists")) //remove all playlists songs that maybe there
-    for (let playlist of player.playlists) {
-        //building playlists elements
+    for (let playlist of player.playlists.sort(comparepl)) {//building playlists elements
         document.getElementById("playlists").appendChild(createAPlaylistElement(playlist))
     }
 }
 
-//gets parent element and child prop, generates an array of options element , and returns it.
+
 function generateArrayOfOptions(parent, childProp) {
+    //Parameters: PARENT ELEMENT, PROP.
+    //Returns: ARRAY OF OPTIONS ELEMENTS CONTAINTIN THE CHILDREN PROPS.
+
     let arrayOfOptions = []
     for (let chiled of parent) {
         let option = document.createElement("option")
@@ -633,11 +610,11 @@ function generateArrayOfOptions(parent, childProp) {
     return arrayOfOptions
 }
 function generateResult(result) {
-    console.log(result)
+    
+
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs and playlist that maybe there
     removeAllChildNodes(document.getElementById("playlists"))
-    if (result.name) {
-        //chaking if it a song or playlist
+    if (result.name) {//chaking if it a song or playlist
         document.getElementById("playlists").appendChild(createAPlaylistElement(result))
     } else {
         document.getElementById("songs").appendChild(createASongElement(result))
@@ -647,7 +624,7 @@ function generateResult(result) {
 function generateResultes(results) {
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs and playlist that maybe there
     removeAllChildNodes(document.getElementById("playlists"))
-    console.log(results)
+
 
     for (let song of results.songs) {
         //building songs elements
