@@ -38,6 +38,10 @@ div {
     padding: 20px;
 
 
+  
+}
+input{
+  float: left;
 }
 input , button{
     font-size: xx-large;
