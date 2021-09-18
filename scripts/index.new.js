@@ -199,16 +199,15 @@ function colorDuration(duration) {
     return `rgb(${red},${green},0)`
 }
 //gets parent element and child prop, generates an array of options element , and returns it.
-function generateArrayOfOptions(parent,childProp){
-    let arrayOfOptions=[]
-    for(let chiled of parent){
-        let option =document.createElement("option")
+function generateArrayOfOptions(parent, childProp) {
+    let arrayOfOptions = []
+    for (let chiled of parent) {
+        let option = document.createElement("option")
         option.append(chiled[childProp])
         arrayOfOptions.push(option)
     }
     return arrayOfOptions
 }
-
 
 //CREATE A SONG ELEMENT
 
@@ -223,11 +222,33 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let playBtn = createElement("button", ["▶"], [], { name: "play" })
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
     let okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtnChosePlaylist" + id })
-    let selectPlaylist = createElement("select",generateArrayOfOptions(player.playlists,"name") , ["hide"], {id: "selectPlaylist" + id })
-    let addToPlaylistBtn = createElement("button", ["add to playlist"], [], { name: "addToPlaylist",id: "addToPlaylist" + id  })
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl,selectPlaylist,okBtn ,addToPlaylistBtn, removeBtn, playBtn], ["song"], {
-        id: id, "name":"song"
+    let selectPlaylist = createElement("select", generateArrayOfOptions(player.playlists, "name"), ["hide"], {
+        id: "selectPlaylist" + id,
     })
+    let addToPlaylistBtn = createElement("button", ["add to playlist"], [], {
+        name: "addToPlaylist",
+        id: "addToPlaylist" + id,
+    })
+    return createElement(
+        "div",
+        [
+            coverArtEl,
+            titleEl,
+            albumEl,
+            artistEl,
+            durationEl,
+            selectPlaylist,
+            okBtn,
+            addToPlaylistBtn,
+            removeBtn,
+            playBtn,
+        ],
+        ["song"],
+        {
+            id: id,
+            name: "song",
+        }
+    )
 }
 
 //CREATING PLAYLIST  ELEMENT
@@ -341,37 +362,35 @@ function handleSongEvent(event) {
     if (event.target.name === "remove") handleRemoveSong(target.id)
     if (event.target.name === "addToPlaylist") showAddToPlaylist(target.id)
     if (event.target.name === "okBtn") handleAddToPlaylist(target.id)
-    
 }
 //gets name, return the playlists id
 
-function playlistIdByName(name){
-    for (let playlist of player.playlists){
-        if (playlist.name ===name) return playlist.id
+function playlistIdByName(name) {
+    for (let playlist of player.playlists) {
+        if (playlist.name === name) return playlist.id
     }
-    return "no such name";
-} 
-
+    return "no such name"
+}
 
 function handleAddToPlaylist(id) {
     const playlistName = document.getElementById("selectPlaylist" + id).value
     const playlistId = playlistIdByName(playlistName)
-    addToPlayList(parseInt(id),playlistId)
-    let selectPlaylist = document.getElementById("selectPlaylist" + id )
+    addToPlayList(parseInt(id), playlistId)
+    let selectPlaylist = document.getElementById("selectPlaylist" + id)
     selectPlaylist.classList.toggle("hide")
     let okBtn = document.getElementById("okBtnChosePlaylist" + id)
     okBtn.classList.toggle("hide")
-    let showAddToPlaylist =document.getElementById("addToPlaylist" + id )
+    let showAddToPlaylist = document.getElementById("addToPlaylist" + id)
     showAddToPlaylist.classList.toggle("hide")
     generatePlaylists()
 }
 
 function showAddToPlaylist(id) {
-    let selectPlaylist = document.getElementById("selectPlaylist" + id )
+    let selectPlaylist = document.getElementById("selectPlaylist" + id)
     selectPlaylist.classList.toggle("hide")
     let okBtn = document.getElementById("okBtnChosePlaylist" + id)
     okBtn.classList.toggle("hide")
-    let showAddToPlaylist =document.getElementById("addToPlaylist" + id )
+    let showAddToPlaylist = document.getElementById("addToPlaylist" + id)
     showAddToPlaylist.classList.toggle("hide")
 }
 
@@ -599,9 +618,9 @@ searchBtn.addEventListener("click", handleSearchBtn)
 let resetBtn = document.getElementById("reset")
 resetBtn.addEventListener("click", handleResetBtn)
 
-function reset(){
+function reset() {
     generatePlaylists()
-    generateSongs()   
+    generateSongs()
 }
 function handleResetBtn() {
     reset()
@@ -712,17 +731,16 @@ function searchByDuration(duration) {
 
 function editPlaylist(playlistId, songId) {
     if (playListById(playlistId) === undefined) {
-      throw new Error('non-existent playlistId')
+        throw new Error("non-existent playlistId")
     }
     if (songById(songId) === undefined) {
-      throw new Error('non-existent songId')
+        throw new Error("non-existent songId")
     }
     let playlist = playListById(playlistId)
-    if (playlist.songs.includes(songId) && playlist.songs.length === 1)
-      removePlaylist(playlistId)
+    if (playlist.songs.includes(songId) && playlist.songs.length === 1) removePlaylist(playlistId)
     else if (playlist.songs.includes(songId) && playlist.songs.length !== 1) {
-      removeFromPlayList(songId, playlistId)
+        removeFromPlayList(songId, playlistId)
     } else if (!playlist.songs.includes(songId)) {
-      addToPlayList(songId, playlistId)
+        addToPlayList(songId, playlistId)
     }
-  }
+}
