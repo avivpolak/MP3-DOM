@@ -198,6 +198,17 @@ function colorDuration(duration) {
 
     return `rgb(${red},${green},0)`
 }
+//gets parent element and child prop, generates an array of options element , and returns it.
+function generateArrayOfOptions(parent,childProp){
+    let arrayOfOptions=[]
+    for(let chiled of parent){
+        let option =document.createElement("option")
+        option.append(chiled[childProp])
+        arrayOfOptions.push(option)
+    }
+    return arrayOfOptions
+}
+
 
 //CREATE A SONG ELEMENT
 
@@ -211,8 +222,11 @@ function createASongElement({ id, title, album, artist, duration, coverArt }) {
     let titleEl = createElement("p", [title], ["bold"])
     let playBtn = createElement("button", ["▶"], [], { name: "play" })
     let removeBtn = createElement("button", ["❌"], [], { name: "remove" })
-    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl, removeBtn, playBtn], ["song"], {
-        id: id,
+    let okBtn = createElement("button", ["✔"], ["hide"], { name: "okBtn", id: "okBtnChosePlaylist" + id })
+    let selectPlaylist = createElement("select",generateArrayOfOptions(player.playlists,"name") , ["hide"], {id: "selectPlaylist" + id })
+    let addToPlaylistBtn = createElement("button", ["add to playlist"], [], { name: "addToPlaylist" })
+    return createElement("div", [coverArtEl, titleEl, albumEl, artistEl, durationEl,selectPlaylist,okBtn ,addToPlaylistBtn, removeBtn, playBtn], ["song"], {
+        id: id, "name":"song"
     })
 }
 
@@ -325,8 +339,34 @@ function handleRenamePlayList(id) {
 
 function handleSongEvent(event) {
     const target = event.target.parentElement
-    if (event.target.name === "play") playSong(target.id) //activate play funcion only if the BUTTON is clicked
+    if (event.target.name === "play") playSong(target.id) //activate play funcion only if the play BUTTON is clicked
     if (event.target.name === "remove") handleRemoveSong(target.id)
+    if (event.target.name === "addToPlaylist") showAddToPlaylist(target.id)
+    if (event.target.name === "okBtn") handleAddToPlaylist(target.id)
+    
+}
+//gets name, return the playlists id
+
+function playlistIdByName(name){
+    for (let playlist of player.playlists){
+        if (playlist.name ===name) return playlist.id
+    }
+    return "no such name";
+} 
+
+
+function handleAddToPlaylist(id) {
+    const playlistName = document.getElementById("selectPlaylist" + id).value
+    const playlistId = playlistIdByName(playlistName)
+    addToPlayList(parseInt(id),playlistId)
+    generatePlaylists()
+}
+
+function showAddToPlaylist(id) {
+    let selectPlaylist = document.getElementById("selectPlaylist" + id )
+    selectPlaylist.classList.toggle("hide")
+    let okBtn = document.getElementById("okBtnChosePlaylist" + id)
+    okBtn.classList.toggle("hide")
 }
 
 function removeSong(id) {
@@ -550,23 +590,32 @@ function renamePlayList(id, newName) {
 
 let searchBtn = document.getElementById("searchBtn")
 searchBtn.addEventListener("click", handleSearchBtn)
+let resetBtn = document.getElementById("reset")
+resetBtn.addEventListener("click", handleResetBtn)
+
+function handleResetBtn() {
+    generatePlaylists()
+    generateSongs()
+}
 
 function handleSearchBtn() {
     const searchQuery = document.getElementById("searchBarInput").value
     if (document.getElementById("searchBy").value === "query") generateResultes(searchByQuery(searchQuery))
     if (document.getElementById("searchBy").value === "duration") generateResult(searchByDuration(searchQuery))
 }
+
 function generateResult(result) {
     console.log(result)
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs and playlist that maybe there
     removeAllChildNodes(document.getElementById("playlists"))
-    if (result.name) { //chaking if it a song or playlist
+    if (result.name) {
+        //chaking if it a song or playlist
         document.getElementById("playlists").appendChild(createAPlaylistElement(result))
-    }
-    else{
+    } else {
         document.getElementById("songs").appendChild(createASongElement(result))
     }
 }
+
 function generateResultes(results) {
     removeAllChildNodes(document.getElementById("songs")) //remove all the songs and playlist that maybe there
     removeAllChildNodes(document.getElementById("playlists"))
@@ -628,24 +677,26 @@ function searchByDuration(duration) {
     duration = mmssTOs(duration)
     let closestPlayList = player.playlists[0]
     let closestsong = player.songs[0]
-    for (let i = 0; i < player.playlists.length; i++) {//searching for closest playlists.
-      let a = playlistDuration(player.playlists[i].id)
-      let b = playlistDuration(closestPlayList.id)
-      if ((a - duration) ** 2 < (b - duration) ** 2) {//a and b named sorting clearing the equation- gettin the absulute destace.
-        closestPlayList = player.playlists[i]
-      }
+    for (let i = 0; i < player.playlists.length; i++) {
+        //searching for closest playlists.
+        let a = playlistDuration(player.playlists[i].id)
+        let b = playlistDuration(closestPlayList.id)
+        if ((a - duration) ** 2 < (b - duration) ** 2) {
+            //a and b named sorting clearing the equation- gettin the absulute destace.
+            closestPlayList = player.playlists[i]
+        }
     }
-    for (let i = 0; i < player.songs.length; i++) {//searching for closest song.
-      let a = player.songs[i].duration
-      let b = closestsong.duration
-      if ((a - duration) ** 2 < (b - duration) ** 2) {//the same for a and b here
-        closestsong = player.songs[i]
-      }
+    for (let i = 0; i < player.songs.length; i++) {
+        //searching for closest song.
+        let a = player.songs[i].duration
+        let b = closestsong.duration
+        if ((a - duration) ** 2 < (b - duration) ** 2) {
+            //the same for a and b here
+            closestsong = player.songs[i]
+        }
     }
-    let a = closestsong.duration 
+    let a = closestsong.duration
     let b = playlistDuration(closestPlayList.id)
-    if ((a - duration) ** 2 < (b - duration) ** 2) return closestsong//the same for a and b here
+    if ((a - duration) ** 2 < (b - duration) ** 2) return closestsong //the same for a and b here
     return closestPlayList
-  }
-  
-  
+}
