@@ -1,6 +1,7 @@
+"use strict"
+
 //MAKING THE BUTTONS ACTUALLY DO SOMETHING
-document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
-document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
+document.getElementById("addButton").addEventListener("click", handleAddSongEvent)
 document.getElementById("songs").addEventListener("click", handleSongEvent)
 document.getElementById("playlists").addEventListener("click", handlePlayListEvent)
 document.getElementById("showAddSection").addEventListener("click", toggleAddSection)
@@ -25,8 +26,8 @@ reset()
     function handlePlayListEvent(event) {
         //MANAGE THE PRESSING ON A PLAYLIST ELEMENT.
 
-        const targetid = event.target.parentElement.id
-        let cleanId = targetid.slice(2, targetid.length)
+        const targetId = event.target.parentElement.id
+        let cleanId = targetId.slice(2, targetId.length)
         if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the specific is clicked
         if (event.target.name === "remove") handleRemoveplaylist(cleanId)
         if (event.target.name === "PlaylistName") showRenameBar(cleanId)
@@ -238,7 +239,7 @@ reset()
         //--> CEATE A PLAYLIST FOR ALL THE SONGS FROM THAT ALBUM
         //returns: NEW PLAYLIST ID.
 
-        playlistId = createPlaylist(album)
+        let playlistId = createPlaylist(album)
         for (let i = 0; i < player.songs.length; i++) {
             if (player.songs[i].album === album) {
                 addToPlayList(player.songs[i].id, playlistId)
@@ -396,7 +397,7 @@ reset()
 
         setZero("songs")
         setZero("playlists")
-        playingNow = document.getElementById(songId)
+        let playingNow = document.getElementById(songId)
         playingNow.classList.add("playing")
         await sleep(songById(parseInt(songId)).duration * 10)
         playingNow.classList.remove("playing")
@@ -435,7 +436,7 @@ reset()
         //get color from duration
 
         let red = 0
-        let greeg = 0
+        let green = 0
         let scale = (duration - 120) / 300
         if (scale >= 0 && scale <= 1) {
             red = scale * 255
@@ -483,8 +484,8 @@ reset()
 
     function compares(a, b) {
         //defining how .SORT function works- for alpha-betic sorting.
-        //-->FOR SONGS criterion ="title"
-        //-->FOR PLAYLISTS criterion ="name"
+        //-->FOR SONGS
+
 
         let fa = a["title"].toLowerCase(),
             fb = b["title"].toLowerCase()
