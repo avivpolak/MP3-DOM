@@ -155,7 +155,7 @@ reset()
         //--> PLAYS THAT SONG IN PLAYLIST.
 
         setZero("songs")
-        playingNow = document.getElementById(songId)
+        let playingNow = document.getElementById(songId)
         playingNow.classList.add("playing")
         await sleep(songById(parseInt(songId)).duration * 10)
         playingNow.classList.remove("playing")
