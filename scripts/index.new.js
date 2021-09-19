@@ -99,7 +99,7 @@ reset()
         newsong.album = document.getElementById("album").value
         newsong.artist = document.getElementById("artist").value
         newsong.duration = document.getElementById("duration").value
-        newsong["cover-art"] = document.getElementById("cover-art").value
+        newsong.coverArt = document.getElementById("cover-art").value
         addSong(newsong)
         generateSongs()
     }
@@ -349,7 +349,8 @@ reset()
         //--> ADDS IN TO PLAYER
         //Returns: NEW SONGS ID.
 
-        const newSong = { title, album, artist, duration: mmssTOs(duration), coverArt }
+        const newSong = { title, album, artist, duration: mmssTOs(duration),coverArt}
+        console.log(coverArt)
         if (!isIdExsistInSongs(id)) newSong.id = id
         else {
             for (let i = 0; i < player.songs.length + 1; i++) {
