@@ -18,14 +18,16 @@ reset()
 
 //FUNCTIONS SECTION:
 
+
 //HANDLE PLAYLIST EVENTS
+
 
     function handlePlayListEvent(event) {
         //MANAGE THE PRESSING ON A PLAYLIST ELEMENT.
 
         const targetid = event.target.parentElement.id
         let cleanId = targetid.slice(2, targetid.length)
-        if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the BUTTON is clicked
+        if (event.target.name === "play") playPlaylist(cleanId) //activate play funcion only if the specific is clicked
         if (event.target.name === "remove") handleRemoveplaylist(cleanId)
         if (event.target.name === "PlaylistName") showRenameBar(cleanId)
         if (event.target.name === "okBtn") handleRenamePlayList(cleanId)
@@ -65,7 +67,9 @@ reset()
         reset()
     }
 
+
 //HANDLE SONG EVENTS
+
 
     function handleSongEvent(event) {
         //MANAGE THE PRESSING ON A SONG ELEMENT.
@@ -113,6 +117,7 @@ reset()
         document.getElementById("selectPlaylist" + id).classList.toggle("hide")
         document.getElementById("okBtnChosePlaylist" + id).classList.toggle("hide")
     }
+
     function handleAddAutoPlaylistEvent() {
         //APLYING AUTO PLAYLIST CREATION WHEN "ADD AUTO PLAILIST" IS PRESSED.
 
@@ -121,7 +126,10 @@ reset()
         if (document.getElementById("criterion").value === "album") albumPlaylist(name)
         reset()
     }
+
+
 //HANDLE OTHER EVENTS
+
 
     function handleResetBtn() {
         //APLYING RESET WHEN THE RESET BUTTON IS PRESSED.
@@ -137,7 +145,9 @@ reset()
         if (document.getElementById("searchBy").value === "duration") generateDurationResult(searchByDuration(searchQuery))
     }
 
+
 //PLAYLIST FUNCTIONS
+
 
     async function playSongInPlaylist(songId) {
         //Parameters: SONG ID
@@ -309,7 +319,9 @@ reset()
         return false
     }
 
+
 //SONG FUNCTIONS
+
 
     function songById(id) {
         //Parameters: SONG ID
@@ -394,7 +406,9 @@ reset()
         }
     }
 
+
 //OTHER FUNCTIONS
+
 
     function mmssTOs(mmss) {
         //Parameters: "MINUTES:SECONDS"
@@ -488,13 +502,16 @@ reset()
 
         document.getElementById("add-section").classList.toggle("hide")
     }
+
     function toggleAddPlaylistSection() {
         //SHOW/HIDE ADD PLAYLIST SECTION.
 
         document.getElementById("addPlaylistSection").classList.toggle("hide")
     }
 
+
 //CREATING ELEMENTS
+
 
     function createElement(tagname, children = [], classes = [], attributes, events) {
         //the most generic element builder.
@@ -582,7 +599,10 @@ reset()
         }
     }
 
+
 //GENERATING THE ELEMENTS
+
+
     function reset() {
         //RESET THE SONGS AND PLAYLIST ELEMENTS
 
@@ -622,6 +642,7 @@ reset()
         }
         return arrayOfOptions
     }
+
     function generateDurationResult(result) {
         //Parameters: RESULT OBJECT
         //-->CREATE RESULT ELEMENT
@@ -654,7 +675,9 @@ reset()
         }
     }
 
+
 //SEARCHING
+
 
     /*
         //Parameters: QUERY STRING ,
